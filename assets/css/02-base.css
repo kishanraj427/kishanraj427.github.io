@@ -127,8 +127,10 @@ a:hover { color: var(--text); }
   border-radius: var(--radius-s);
   box-shadow: var(--shadow-2);
   text-decoration: none;
-  transform: translateY(-150%);
-  transition: transform var(--dur-fast) var(--ease-out);
+  /* Clipped rather than moved off-screen: a transform would park it above the
+     viewport, and a view transition captures that area. Clipping keeps it
+     focusable without contributing anything outside the visible page. */
+  clip-path: inset(50%);
 }
 
-.skip-link:focus { transform: none; }
+.skip-link:focus { clip-path: none; }

@@ -27,7 +27,11 @@
 
 :root {
   /* ── day palette ─────────────────────────────────────────────────────── */
-  --canvas: #faf6ef;
+  /* Both canvases are always resolvable, so the wipe overlay can be painted
+     with the INCOMING theme's background before that theme is applied. */
+  --canvas-day: #faf6ef;
+  --canvas-night: #0d1117;
+  --canvas: var(--canvas-day);
   --surface: #fffdf8;
   --text: #1c1a17;
   --text-muted: #6b6459;
@@ -109,7 +113,7 @@
 }
 
 :root[data-theme="night"] {
-  --canvas: #0d1117;
+  --canvas: var(--canvas-night);
   --surface: #161b22;
   --text: #e8e6e3;
   --text-muted: #9aa4b2;

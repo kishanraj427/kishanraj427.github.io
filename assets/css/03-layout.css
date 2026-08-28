@@ -204,9 +204,21 @@
     width: min(20rem, 85vw);
     transform: translateX(-102%);
     box-shadow: var(--shadow-2);
+    /* Hidden only after it has finished sliding out, so the animation still
+       plays but the closed sidebar never sits in the captured area. */
+    visibility: hidden;
+    transition:
+      background var(--dur-base) var(--ease-inout),
+      border-color var(--dur-base) var(--ease-inout),
+      transform var(--dur-base) var(--ease-out),
+      visibility 0s linear var(--dur-base);
   }
 
-  .sidebar.is-open { transform: none; }
+  .sidebar.is-open {
+    transform: none;
+    visibility: visible;
+    transition-delay: 0s;
+  }
 
   .menu-toggle {
     display: grid;

@@ -1,5 +1,5 @@
 /* ===========================================================================
-   05-motion.css — keyframes, reveal states, view-transition rules, and the
+   05-motion.css — keyframes, reveal states, the theme wipe overlay, and the
    single reduced-motion override block.
    Consumes tokens from 01-tokens.css. No literal colours.
    ========================================================================= */
@@ -16,35 +16,24 @@
 }
 
 /* ── theme wipe ────────────────────────────────────────────────────────────
-   A circular reveal expanding from the toggle button's own coordinates.
-   theme.js owns the wipe: it measures the toggle button and animates the
-   pseudo-element directly. Nothing here needs to know the origin. */
+   theme.js animates ::view-transition-new(root) directly, passing the toggle
+   button's coordinates as literal pixels. The default cross-fades are off so
+   the new snapshot is simply clipped open over the old one.
 
-/* Both default cross-fades are switched off. theme.js animates
-   ::view-transition-new(root) directly via element.animate(), passing the
-   button's coordinates as literal pixels. Doing it in CSS meant the keyframes
-   had to inherit custom properties into the view-transition pseudo tree, and
-   when that failed the wipe silently fell back to a centred origin. */
+   This only lands in the right place while nothing sits outside the viewport:
+   the pseudo-elements are sized to the captured area, so off-screen content
+   shifts the origin. See the closed sidebar and the skip link, both hidden
+   rather than displaced for exactly this reason. */
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
 
-/* The old snapshot sits underneath while the new one is clipped open over it. */
+/* The old page stays put underneath; the new one opens over it. */
 ::view-transition-old(root) { z-index: 0; }
 ::view-transition-new(root) { z-index: 1; }
-
-/* Fixed elements are snapshotted in place by the View Transitions API and
-   otherwise appear to duplicate or jump during the wipe. Naming each one
-   animates it as its own layer so it cross-fades in place instead.
-   .sidebar and .scroll-progress do not exist until Task 3 — CSS for a
-   selector that matches nothing is inert, and keeping the whole
-   view-transition contract in one place is worth the forward reference. */
-
-.theme-toggle    { view-transition-name: theme-toggle; }
-.sidebar         { view-transition-name: sidebar; }
-.scroll-progress { view-transition-name: progress; }
 
 /* ── scroll reveals ────────────────────────────────────────────────────────
    Start states are scoped to .js (set by the head boot script) so that with
@@ -85,7 +74,5 @@
     transform: none;
     transition: none;
   }
-
-  ::view-transition-new(root) { animation: none; }
 
 }

@@ -35,55 +35,67 @@ export function initTheme() {
     const next = current === 'night' ? 'day' : 'night';
     write(next);
 
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced || !document.startViewTransition) {
+    // No animation path: reduced motion, or a browser without View Transitions
+    // (older Safari). The theme still changes, just instantly.
+    if (
+      matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      !document.startViewTransition
+    ) {
       apply(next);
       return;
     }
 
-    // Seed the wipe at the button's centre, and size it to the furthest
-    // corner so the circle always covers the viewport.
-    const r = btn.getBoundingClientRect();
-    const x = r.left + r.width / 2;
-    const y = r.top + r.height / 2;
-    const far = Math.hypot(
-      Math.max(x, innerWidth - x),
-      Math.max(y, innerHeight - y)
-    );
-
-    const transition = document.startViewTransition(() => apply(next));
-
-    // Drive the wipe from JS with literal pixel values rather than from CSS
-    // keyframes reading custom properties.
-    //
-    // ::view-transition-new(root) lives in the view-transition pseudo tree,
-    // not the normal DOM. A keyframe there has to inherit --wipe-x/y from
-    // :root AND resolve it at the moment the keyframes are computed. When that
-    // fails the keyframe silently falls back to its default origin, so the
-    // wipe starts from the middle of the screen instead of the button. That
-    // resolution differs between Chrome versions, which made the same page
-    // behave differently on two machines. Passing numbers straight into
-    // element.animate() removes the indirection entirely.
-    transition.ready
-      .then(() => {
-        const cs = getComputedStyle(document.documentElement);
-        const ms = parseFloat(cs.getPropertyValue('--dur-slow')) || 620;
-        const easing = cs.getPropertyValue('--ease-inout').trim() || 'ease-in-out';
-
-        document.documentElement.animate(
-          {
-            clipPath: [
-              `circle(0px at ${x}px ${y}px)`,
-              `circle(${far}px at ${x}px ${y}px)`,
-            ],
-          },
-          {
-            duration: ms,
-            easing,
-            pseudoElement: '::view-transition-new(root)',
-          }
-        );
-      })
-      .catch(() => { /* transition skipped; the theme still applied */ });
+    wipe(next, btn);
   });
+}
+
+/* A circular reveal of the real page, expanding from the toggle button.
+
+   This uses the View Transitions API because it is the only way to reveal
+   actual content: the browser snapshots the old and new pages, and the new one
+   is clipped open over the old. An overlay cannot do this, it can only carry a
+   flat colour, which blanks the screen.
+
+   The earlier trouble with this approach was never the API. ::view-transition
+   pseudo-elements are sized to the CAPTURED AREA, and the page was putting
+   things outside the viewport: the closed mobile sidebar sat ~320px to the
+   left, and the skip link was parked above the top. That moved the capture's
+   origin, so viewport coordinates landed somewhere else, which is why a button
+   on the right produced a wipe from the left on a phone. Both are now hidden
+   rather than displaced, so the capture matches the viewport and the maths
+   lines up. */
+function wipe(next, btn) {
+  const root = document.documentElement;
+  const cs = getComputedStyle(root);
+  const ms = parseFloat(cs.getPropertyValue('--dur-slow')) || 620;
+  const easing = cs.getPropertyValue('--ease-inout').trim() || 'ease-in-out';
+
+  const r = btn.getBoundingClientRect();
+  const x = r.left + r.width / 2;
+  const y = r.top + r.height / 2;
+  // reach the furthest corner, so the circle always covers the whole viewport
+  const far = Math.hypot(
+    Math.max(x, innerWidth - x),
+    Math.max(y, innerHeight - y)
+  );
+
+  const transition = document.startViewTransition(() => apply(next));
+
+  transition.ready
+    .then(() => {
+      root.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${far}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: ms,
+          easing,
+          pseudoElement: '::view-transition-new(root)',
+        }
+      );
+    })
+    .catch(() => { /* transition skipped; the theme has still been applied */ });
 }
