@@ -1,0 +1,88 @@
+/* ===========================================================================
+   05-motion.css — keyframes, reveal states, view-transition rules, and the
+   single reduced-motion override block.
+   Consumes tokens from 01-tokens.css. No literal colours.
+   ========================================================================= */
+
+/* ── boot guard ────────────────────────────────────────────────────────────
+   The inline head script sets .no-transitions; main.js removes it after two
+   frames. Without this, applying the stored theme at load plays the wipe. */
+
+.no-transitions *,
+.no-transitions *::before,
+.no-transitions *::after {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* ── theme wipe ────────────────────────────────────────────────────────────
+   A circular reveal expanding from the toggle button's own coordinates.
+   theme.js sets --wipe-x / --wipe-y / --wipe-r immediately before starting
+   the view transition. */
+
+::view-transition-old(root) {
+  animation: none;
+}
+
+::view-transition-new(root) {
+  animation: theme-wipe var(--dur-slow) var(--ease-inout);
+}
+
+@keyframes theme-wipe {
+  from { clip-path: circle(0 at var(--wipe-x, 50%) var(--wipe-y, 50%)); }
+  to   { clip-path: circle(var(--wipe-r, 150vmax) at var(--wipe-x, 50%) var(--wipe-y, 50%)); }
+}
+
+/* Fixed elements are snapshotted in place by the View Transitions API and
+   otherwise appear to duplicate or jump during the wipe. Naming each one
+   animates it as its own layer so it cross-fades in place instead.
+   .sidebar and .scroll-progress do not exist until Task 3 — CSS for a
+   selector that matches nothing is inert, and keeping the whole
+   view-transition contract in one place is worth the forward reference. */
+
+.theme-toggle    { view-transition-name: theme-toggle; }
+.sidebar         { view-transition-name: sidebar; }
+.scroll-progress { view-transition-name: progress; }
+
+/* ── scroll reveals ────────────────────────────────────────────────────────
+   Start states are scoped to .js (set by the head boot script) so that with
+   JavaScript disabled or failed every section renders fully visible rather
+   than the page appearing blank. */
+
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(1rem);
+  transition:
+    opacity var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * var(--stagger));
+}
+
+.js [data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── reduced motion ────────────────────────────────────────────────────────
+   One block, by design: the behaviour is auditable in one place rather than
+   scattered through the codebase as per-component guards. */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Content must still arrive — never leave a reveal stuck at opacity 0. */
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  ::view-transition-new(root) { animation: none; }
+}

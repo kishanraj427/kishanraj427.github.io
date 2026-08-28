@@ -4,21 +4,40 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="Raj Kishan Prasad - Full Stack Software Engineer building mobile, web and backend systems. Portfolio, projects and contact." />
+  <meta name="description" content="Raj Kishan Prasad, Full-Stack Software Engineer building AI-powered SaaS at Eicore. Mobile, web and backend work, with six apps live on Google Play." />
   <meta name="author" content="Raj Kishan Prasad" />
-  <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet" />
 
   <title>Raj Kishan Prasad</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Pre-paint theme boot. MUST stay inline and blocking, before any
+       stylesheet: a deferred read of localStorage runs after first paint,
+       which flashes the wrong theme on every load. This is the only inline
+       JS in the project. -->
+  <script>
+    (function () {
+      var r = document.documentElement;
+      r.classList.add('js', 'no-transitions');
+      var t = null;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (t !== 'day' && t !== 'night') {
+        t = matchMedia('(prefers-color-scheme: dark)').matches ? 'night' : 'day';
+      }
+      r.setAttribute('data-theme', t);
+    })();
+  </script>
 
-  <!-- Additional CSS Files -->
-  <link rel="stylesheet" href="assets/css/fontawesome.css" />
-  <link rel="stylesheet" href="assets/css/templatemo-style.css" />
-  <link rel="stylesheet" href="assets/css/owl.css" />
-  <link rel="stylesheet" href="assets/css/lightbox.css" />
-  <link rel="shortcut icon" type="image/x-icon" href="assets\images\favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=JetBrains+Mono:wght@400&display=swap" />
+
+
+  <link rel="stylesheet" href="assets/css/01-tokens.css" />
+  <link rel="stylesheet" href="assets/css/02-base.css" />
+  <link rel="stylesheet" href="assets/css/03-layout.css" />
+  <link rel="stylesheet" href="assets/css/04-components.css" />
+  <link rel="stylesheet" href="assets/css/05-motion.css" />
+
+  <link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.ico" />
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LERHT2CLSR"></script>
@@ -33,630 +52,638 @@
 </head>
 
 <body>
-  <div id="page-wraper">
-    <!-- Sidebar Menu -->
-    <div class="responsive-nav">
-      <i class="fa fa-bars" id="menu-toggle"></i>
-      <div id="menu" class="menu">
-        <i class="fa fa-times" id="menu-close"></i>
-        <div class="container">
-          <div class="image">
-            <img src="assets/images/kishan.jpg" alt="" style='object-fit: cover'/>
-          </div>
-          <div class="author-content">
-            <h4>Raj Kishan Prasad</h4>
-            <span>Nature Lover by Day🌿</span><br>
-            <span>Code Ninja by Night💻</span>
-          </div>
-          <nav class="main-nav" role="navigation">
-            <ul class="main-menu">
-              <li><a href="#section1">Raj Kishan, who dat?</a></li>
-              <li><a href="#section2">My Superpowers</a></li>
-              <li><a href="#section3">Things I've been upto</a></li>
-              <li><a href="#section4">Say Hi!</a></li>
-            </ul>
-          </nav>
-          <div class="social-network">
-            <ul class="soial-icons">
-              <li>
-                <a href="https://www.linkedin.com/in/raj-kishan-prasad-7893ab1aa" target="_blank" rel="noopener noreferrer"><i
-                  class="fa fa-linkedin"></i></a>
-              </li>
-              <li>
-                <a href="https://github.com/kishanraj427" target="_blank" rel="noopener noreferrer"><i class="fa fa-github"></i></a>
-              </li>
-              <li>
-                <a href="mailto:kishanraj427@gmail.com"><i class="fa fa-envelope"></i></a>
-              </li>
-              <li>
-                <a href="https://drive.google.com/file/d/1KK_xdIuRj-cizsDoA7vNn5IfmEqzczhz/view" target="_blank" rel="noopener noreferrer"><i class="fa fa-file-text"></i></a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+  <a class="skip-link" href="#content">Skip to content</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
 
-    <section class="section about-me" data-section="section1">
-      <div class="container">
-        <div class="section-heading">
-          <h2>Hi! I'm Raj Kishan 🙋</h2>
-          <span>He/His</span>
-          <div class="line-dec"></div>
-          <span>Wow! A whole page just about me?</span>
+  <!-- Theme toggle. Styled fixed for now; Task 3 moves it into the sidebar. -->
+  <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false">
+    <span class="visually-hidden">Switch to night theme</span>
+    <svg class="theme-toggle__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <mask id="moon-mask">
+        <rect width="100%" height="100%" fill="#fff" />
+        <circle class="theme-toggle__bite" cx="26" cy="8" r="7" fill="#000" />
+      </mask>
+      <circle class="theme-toggle__disc" cx="12" cy="12" r="6" mask="url(#moon-mask)" />
+      <g class="theme-toggle__rays" stroke-linecap="round">
+        <line x1="12" y1="1"    x2="12" y2="3" />
+        <line x1="12" y1="21"   x2="12" y2="23" />
+        <line x1="1"  y1="12"   x2="3"  y2="12" />
+        <line x1="21" y1="12"   x2="23" y2="12" />
+        <line x1="4.2"  y1="4.2"  x2="5.6"  y2="5.6" />
+        <line x1="18.4" y1="18.4" x2="19.8" y2="19.8" />
+        <line x1="4.2"  y1="19.8" x2="5.6"  y2="18.4" />
+        <line x1="18.4" y1="5.6"  x2="19.8" y2="4.2" />
+      </g>
+    </svg>
+  </button>
+
+  <div id="page-wraper">
+    <!-- Sidebar -->
+    <header class="sidebar" id="menu">
+      <button id="menu-close" class="menu-close" type="button">
+        <span class="visually-hidden">Close menu</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" /></svg>
+      </button>
+
+      <div class="sidebar__identity">
+        <img class="sidebar__photo" src="assets/images/kishan.jpg" alt="Raj Kishan Prasad" />
+        <p class="sidebar__name">Raj Kishan Prasad</p>
+        <p class="sidebar__tagline mono">
+          <span>Nature Lover by Day &#127807;</span>
+          <span>Code Ninja by Night &#128187;</span>
+        </p>
+      </div>
+
+      <nav class="sidebar__nav" aria-label="Sections">
+        <ul class="main-menu">
+          <li><a href="#about">Raj Kishan, who dat?</a></li>
+          <li><a href="#superpowers">My Superpowers</a></li>
+          <li><a href="#career">Career</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Say Hi!</a></li>
+        </ul>
+      </nav>
+
+      <ul class="sidebar__social">
+        <li>
+          <a href="https://www.linkedin.com/in/raj-kishan-prasad-7893ab1aa" target="_blank" rel="noopener noreferrer">
+            <span class="visually-hidden">LinkedIn</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05a4.2 4.2 0 0 1 3.75-2c4 0 4.75 2.6 4.75 6V21h-4v-5.6c0-1.35-.03-3.1-1.9-3.1s-2.2 1.48-2.2 3v5.7h-4z" /></svg>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/kishanraj427" target="_blank" rel="noopener noreferrer">
+            <span class="visually-hidden">GitHub</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.26.8-.57v-2c-3.34.72-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .31.21.68.81.57A12 12 0 0 0 12 .5z" /></svg>
+          </a>
+        </li>
+        <li>
+          <a href="mailto:kishanraj427@gmail.com">
+            <span class="visually-hidden">Email</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1.5 2L12 12.5 19.5 7z" /></svg>
+          </a>
+        </li>
+        <li>
+          <a href="https://drive.google.com/file/d/1KK_xdIuRj-cizsDoA7vNn5IfmEqzczhz/view" target="_blank" rel="noopener noreferrer">
+            <span class="visually-hidden">R&eacute;sum&eacute;</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 2h7l5 5v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm7 1.5V8h4.5zM8 12h8v1.5H8zm0 3.5h8V17H8z" /></svg>
+          </a>
+        </li>
+      </ul>
+    </header>
+
+    <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu">
+      <span class="visually-hidden">Open menu</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+    </button>
+
+    <main id="content">
+      <!-- Hero -->
+      <section class="hero" id="hero">
+        <div class="hero__sky" aria-hidden="true">
+          <span class="hero__star" style="--x:12%; --y:18%; --d:0s"></span>
+          <span class="hero__star" style="--x:26%; --y:52%; --d:.6s"></span>
+          <span class="hero__star" style="--x:41%; --y:12%; --d:1.2s"></span>
+          <span class="hero__star" style="--x:58%; --y:38%; --d:.3s"></span>
+          <span class="hero__star" style="--x:71%; --y:16%; --d:1.5s"></span>
+          <span class="hero__star" style="--x:83%; --y:47%; --d:.9s"></span>
+          <span class="hero__star" style="--x:92%; --y:24%; --d:1.8s"></span>
+          <span class="hero__star" style="--x:34%; --y:72%; --d:.45s"></span>
+          <span class="hero__star" style="--x:64%; --y:66%; --d:1.35s"></span>
         </div>
-        <div class="service-item">
-          <p>
-            I am a software engineer with a Master's Degree in Computer Application and currently working at
-            Eicore.
-            <br><br>
-            I wrote my 'Hello World' at age 18 and fell in love with the things a few lines of code could do.
-            I have a keen interest in Full-stack Development and want to keep learning as I go.
-            <br><br>
-            I have always been extremely fascinated with technology and truly believe that it can change our world for
-            the better
-            and this is the place where I write about interesting projects that I have worked on.
-            <br><br>
-            When I'm not coding, you can find me exploring new places or wandering through nature's beauty.
-            Finally, if you want to talk about finance, tech, and travel, shoot me an email!
-            <br><br><b>P.S. - Feel free to send nature pictures!</b>
+
+        <div class="hero__inner">
+          <div class="hero__body">
+            <p class="hero__eyebrow mono" data-reveal>Full-Stack Software Engineer</p>
+
+            <h1 class="hero__name" data-reveal>Raj Kishan Prasad</h1>
+
+            <p class="hero__pitch" data-reveal>
+              I turn complex business needs into scalable, high-performing
+              applications. Right now that means AI-powered SaaS at Eicore.
+            </p>
+
+            <p class="hero__tagline" data-reveal>
+              <span class="hero__tagline-day">Nature Lover by Day &#127807;</span>
+              <span class="hero__tagline-sep" aria-hidden="true">/</span>
+              <span class="hero__tagline-night">Code Ninja by Night &#128187;</span>
+            </p>
+
+            <ul class="stats" data-reveal>
+              <li class="stat">
+                <span class="stat__value"><span data-count="2">0</span>+</span>
+                <span class="stat__label mono">years of<br />experience</span>
+              </li>
+              <li class="stat">
+                <span class="stat__value"><span data-count="5">0</span>+</span>
+                <span class="stat__label mono">enterprise projects<br />delivered</span>
+              </li>
+              <li class="stat">
+                <span class="stat__value"><span data-count="4">0</span>+</span>
+                <span class="stat__label mono">domains<br />worked in</span>
+              </li>
+              <li class="stat">
+                <span class="stat__value"><span data-count="5">0</span>&#9733;</span>
+                <span class="stat__label mono">HackerRank<br />Problem Solving</span>
+              </li>
+            </ul>
+
+            <div class="hero__actions" data-reveal>
+              <a class="button button--primary" href="#projects" data-magnetic>View Work</a>
+              <a class="button" href="https://drive.google.com/file/d/1KK_xdIuRj-cizsDoA7vNn5IfmEqzczhz/view" target="_blank" rel="noopener noreferrer" data-magnetic>R&eacute;sum&eacute;</a>
+              <a class="button" href="#contact" data-magnetic>Say Hi</a>
+            </div>
+
+            <a class="wire-badge" href="https://play.google.com/store/apps/details?id=com.wire.location" target="_blank" rel="noopener noreferrer" data-reveal>
+              <span class="wire-badge__dot" aria-hidden="true"></span>
+              <span class="wire-badge__text">
+                <strong>Wire</strong>, my newest app, now live on Google Play
+              </span>
+              <svg class="wire-badge__arrow" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </a>
+          </div>
+
+          <div class="hero__portrait" data-reveal>
+            <img src="assets/images/kishan.jpg" alt="Raj Kishan Prasad" width="420" height="420" />
+          </div>
+        </div>
+
+        <a class="hero__scroll mono" href="#about">
+          <span>scroll</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 5v14M6 13l6 6 6-6" /></svg>
+        </a>
+      </section>
+
+
+      <!-- 01 / About -->
+      <section class="section" id="about">
+        <header class="section-head" data-reveal>
+          <p class="section-number mono">01</p>
+          <h2>Hi! I&#39;m Raj Kishan &#128587;</h2>
+          <p class="section-pronouns mono">He/His</p>
+          <div class="rule" aria-hidden="true"></div>
+          <p class="section-lede">Wow! A whole page just about me?</p>
+        </header>
+
+        <div class="prose">
+          <p data-reveal>
+            I&#39;m a software engineer, currently at Eicore. I build AI-powered SaaS
+            there, and most of my time goes on working out how to put artificial
+            intelligence into production web and mobile systems without giving up
+            performance or code quality.
+          </p>
+          <p data-reveal>
+            I wrote my &#39;Hello World&#39; at 18 and fell in love with what a few lines
+            of code could do. That grew into a real interest in full-stack development,
+            covering mobile, web and the backend behind both. It also left me caring about
+            system design and real production bottlenecks, not just shipping code that
+            runs.
+          </p>
+          <p data-reveal>
+            My early background is in Cyber Security, and it stuck. I approach
+            development security-first and at a systems level, which tends to show up as
+            fewer surprises later.
+          </p>
+          <p data-reveal>
+            When I&#39;m not coding, you can find me exploring new places or wandering
+            through nature&#39;s beauty. If you want to talk finance, tech or travel,
+            shoot me an email.
+          </p>
+          <p class="prose__ps" data-reveal>
+            <strong>P.S.</strong> Feel free to send nature pictures.
           </p>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="section my-services" data-section="section2">
-      <div class="container">
-        <div class="section-heading">
-          <h2>My Superpowers 💪</h2>
-          <div class="line-dec"></div>
-          <span>Technology is no less than a super power to me!<br>I'm only getting started with my upgrades.</span>
+      <!-- 02 / Superpowers -->
+      <section class="section" id="superpowers">
+        <header class="section-head" data-reveal>
+          <p class="section-number mono">02</p>
+          <h2>My Superpowers &#128170;</h2>
+          <div class="rule" aria-hidden="true"></div>
+          <p class="section-lede">
+            The languages, frameworks and tools I actually build with, across mobile,
+            web, backend and everything holding them together.
+          </p>
+        </header>
+
+        <ul class="tiles">
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/flutter.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">Flutter</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/android.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">Android Studio</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/java.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">Java</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/kotlin.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">Kotlin</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/sql.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">SQL</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/jetpack-compose.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">Jetpack Compose</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/node.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">Node</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/express.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">Express</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/typescript.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">TypeScript</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/c.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">C</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/cpp.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">C++</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/web.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">HTML5 + CSS3</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/angular.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">Angular</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/react.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">React</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/git.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">Git</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/firebase.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">Firebase</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/python.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">Python</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/spring-boot.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">Spring Boot</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/playwright.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">Playwright</span>
+          </li>
+          <li class="tile" data-reveal>
+            <span class="tile__chip"><img src="assets/images/claudecode-color.png" alt="" width="48" height="48" /></span>
+            <span class="tile__name">Claude Code</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- 03 / Career -->
+      <section class="section" id="career">
+        <header class="section-head" data-reveal>
+          <p class="section-number mono">03</p>
+          <h2>Career &#128188;</h2>
+          <div class="rule" aria-hidden="true"></div>
+          <p class="section-lede">
+            Where I&#39;ve worked and what I studied, most recent first.
+          </p>
+        </header>
+
+        <div class="timeline">
+          <div class="timeline__track" aria-hidden="true">
+            <span class="timeline__line"></span>
+          </div>
+          <ol class="timeline__list">
+
+          <li class="tl" data-reveal>
+            <span class="tl__node" aria-hidden="true"></span>
+            <p class="tl__dates mono">Feb 2026 &mdash; Present</p>
+            <h3 class="tl__role">Software Engineer</h3>
+            <p class="tl__org">
+              <a href="https://www.eicoretech.com/" target="_blank" rel="noopener noreferrer">Eicore</a>
+              <span class="tl__meta mono">Gurugram &middot; On-site</span>
+            </p>
+            <p class="tl__body">
+              Internalized from essentia.dev after months of consistent delivery as an
+              external consultant. I build OneBuzz, a core AI-powered SaaS product. Most
+              of the work is figuring out how to put artificial intelligence into production
+              web and mobile ecosystems without sacrificing performance or code quality.
+            </p>
+          </li>
+
+          <li class="tl" data-reveal>
+            <span class="tl__node" aria-hidden="true"></span>
+            <p class="tl__dates mono">Jun 2025 &mdash; Feb 2026</p>
+            <h3 class="tl__role">Software Engineer</h3>
+            <p class="tl__org">
+              <a href="https://essentia.dev/" target="_blank" rel="noopener noreferrer">essentia.dev</a>
+              <span class="tl__meta mono">Noida &middot; On-site</span>
+            </p>
+            <p class="tl__body">
+              Built and maintained end-to-end web applications for the insurance industry,
+              leveraging AI. Placed with Eicore as a consultant, where I went on to join the
+              team full-time.
+            </p>
+          </li>
+
+          <li class="tl" data-reveal>
+            <span class="tl__node" aria-hidden="true"></span>
+            <p class="tl__dates mono">Jan 2024 &mdash; May 2025</p>
+            <h3 class="tl__role">Full-Stack Mobile Developer</h3>
+            <p class="tl__org">
+              <a href="https://witbybit.com/" target="_blank" rel="noopener noreferrer">Wit/Bit</a>
+              <span class="tl__meta mono">Kolkata &middot; Remote</span>
+            </p>
+            <p class="tl__body">
+              Owned several projects end to end, building CRM, inventory management and
+              eCommerce applications as mobile apps. My first stretch of running work
+              independently, and the year I learned the most.
+            </p>
+          </li>
+
+          <li class="tl" data-reveal>
+            <span class="tl__node" aria-hidden="true"></span>
+            <p class="tl__dates mono">Sep 2023 &mdash; Jan 2024</p>
+            <h3 class="tl__role">Internship</h3>
+            <p class="tl__org">
+              <a href="https://www.learnship.com/" target="_blank" rel="noopener noreferrer">Learnship</a>
+              <span class="tl__meta mono">Chennai &middot; On-site</span>
+            </p>
+            <p class="tl__body">
+              My first internship, building web front-ends with HTML, CSS and Angular.
+              New place, new people, and the first time my code had users who were not
+              me.
+            </p>
+          </li>
+
+          <li class="tl tl--edu" data-reveal>
+            <span class="tl__node" aria-hidden="true"></span>
+            <p class="tl__dates mono">Sep 2022 &mdash; May 2024</p>
+            <h3 class="tl__role">Master of Computer Applications</h3>
+            <p class="tl__org">
+              <a href="https://vit.ac.in/" target="_blank" rel="noopener noreferrer">Vellore Institute of Technology</a>
+              <span class="tl__meta mono">Grade 9.01</span>
+            </p>
+            <p class="tl__body">
+              Two years on computer science fundamentals, databases and system design,
+              finished at 9.01. The last months ran alongside the Wit/Bit role, so the
+              dates above overlap on purpose.
+            </p>
+          </li>
+
+          <li class="tl tl--edu" data-reveal>
+            <span class="tl__node" aria-hidden="true"></span>
+            <p class="tl__dates mono">2019 &mdash; 2022</p>
+            <h3 class="tl__role">B.Sc, Computer Science &amp; Cyber Security</h3>
+            <p class="tl__org">
+              <a href="https://www.jrsu.ac.in/" target="_blank" rel="noopener noreferrer">Jharkhand Raksha Shakti University, Ranchi</a>
+              <span class="tl__meta mono">Grade 9.19</span>
+            </p>
+            <p class="tl__body">
+              Where the security-first habit started. It is also the university I later
+              built an official app for.
+            </p>
+          </li>
+          </ol>
         </div>
-        <div class="row">
-          <div class="isotope-wrapper">
-            <div class="isotope-box">
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/flutter.png" alt="Flutter" />
-                  <figcaption>
-                    <span>Flutter</span>
-                  </figcaption>
-                </figure>
-              </div>
+      </section>
 
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/android.png" alt="Android Studio" />
-                  <figcaption>
-                    <span>Android Studio</span>
-                  </figcaption>
-                </figure>
-              </div>
+      <!-- 04 / Projects -->
+      <section class="section" id="projects">
+        <header class="section-head" data-reveal>
+          <p class="section-number mono">04</p>
+          <h2>Things I&#39;ve been upto &#128187;</h2>
+          <div class="rule" aria-hidden="true"></div>
+          <p class="section-lede">
+            Side projects, most of them shipped and public. Nine of them, six live
+            on Google Play.
+          </p>
+        </header>
 
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/java.png" alt="Java" />
-                  <figcaption>
-                    <span>Java</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/kotlin.png" alt="Kotlin" />
-                  <figcaption>
-                    <span>Kotlin</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/sql.png" alt="SQL" />
-                  <figcaption>
-                    <span>SQL</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/jetpack-compose.png" alt="Jetpack Compose" />
-                  <figcaption>
-                    <span>Jetpack Compose</span>
-                  </figcaption>
-                </figure>
-              </div>
-              
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/node.png" alt="Node" />
-                  <figcaption>
-                    <span>Node</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/express.png" alt="Express" />
-                  <figcaption>
-                    <span>Express</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/typescript.png" alt="TypeScript" />
-                  <figcaption>
-                    <span>TypeScript</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/c.png" alt="C" />
-                  <figcaption>
-                    <span>C</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/cpp.png" alt="C++" />
-                  <figcaption>
-                    <span>C++</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/web.png" alt="HTML5 + CSS3" />
-                  <figcaption>
-                    <span>HTML5 + CSS3</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/angular.png" alt="Angular" />
-                  <figcaption>
-                    <span>Angular</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/React.png" alt="React" />
-                  <figcaption>
-                    <span>React</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/git.png" alt="Git" />
-                  <figcaption>
-                    <span>Git</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/firebase.png" alt="Firebase" />
-                  <figcaption>
-                    <span>Firebase</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/python.png" alt="Python" />
-                  <figcaption>
-                    <span>Python</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/spring-boot.png" alt="Spring Boot" />
-                  <figcaption>
-                    <span>Spring Boot</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/Playwrite.png" alt="Playwright" />
-                  <figcaption>
-                    <span>Playwright</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-              <div class="isotope-item">
-                <figure class="snip1321">
-                  <img src="assets/images/claudecode-color.png" alt="Claude Code" />
-                  <figcaption>
-                    <span>Claude Code</span>
-                  </figcaption>
-                </figure>
-              </div>
-
-            </div>
-          </div>
+        <div class="filters" role="radiogroup" aria-label="Filter projects by technology">
+          <button class="chip" type="button" role="radio" aria-checked="true" data-filter="all">All</button>
+          <button class="chip" type="button" role="radio" aria-checked="false" data-filter="flutter">Flutter</button>
+          <button class="chip" type="button" role="radio" aria-checked="false" data-filter="android">Android</button>
+          <button class="chip" type="button" role="radio" aria-checked="false" data-filter="web">Web</button>
         </div>
-      </div>
-    </section>
 
-    <section class="section my-work" data-section="section3">
-      <div class="container">
-        <div class="section-heading">
-          <h2>Things I've been upto 💻</h2>
-          <div class="line-dec"></div>
-          <span>Here is a list of all the challenging, inspiring and fun things I've been upto in the past few
-            years.</span>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="service-item">
-              <div class="tags">
-                <p>Software Engineer</p>
-              </div>
-              <a href="https://www.eicoretech.com/" target="_blank" rel="noopener noreferrer"><h4><u>Eicore</u></h4></a>
-              <div class="dates">
-                <p>2026 - Present</p>
-              </div>
-              <p>
-                Internalized from Essentia.dev after months of consistent delivery as an external consultant, and now part of the in-house engineering team building OneBuzz.<br>
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="service-item">
-              <div class="tags">
-                <p>Flutter | PostgreSQL | WebSocket</p>
-              </div>
-              <a href="https://play.google.com/store/apps/details?id=com.wire.location" target="_blank" rel="noopener noreferrer"><h4><u>Wire</u></h4></a>
-              <div class="dates">
-                <p>2026</p>
-              </div>
-              <p>
-                Born on a bike trip, where nobody knew who was still on the right route. Create a trip, set the destination and share a Trip ID - everyone then sees each other's live location and progress toward the destination in real time. On the <a href="https://play.google.com/store/apps/details?id=com.wire.location" target="_blank" rel="noopener noreferrer">Play Store</a>, and the <a href="https://github.com/kishanraj427/wayfarer-sync" target="_blank" rel="noopener noreferrer">source is open</a>.<br>
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="service-item">
-              <div class="tags">
-                <p>Full-Stack Software Engineer</p>
-              </div>
-              <a href="https://essentia.dev/" target="_blank" rel="noopener noreferrer"><h4><u>Essentia.dev</u></h4></a>
-              <div class="dates">
-                <p>2025 - 2026</p>
-              </div>
-              <p>
-                Built and maintained end-to-end web applications for the insurance industry by leveraging the power of AI. Placed with Eicore as a consultant, where I went on to join the team full-time.<br>
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="service-item">
-              <div class="tags">
-                <p>Full-Stack Mobile Developer</p>
-              </div>
-              <a href="https://witbybit.com/" target="_blank" rel="noopener noreferrer"><h4><u>Wit/Bit</u></h4></a>
-              <div class="dates">
-                <p>2024</p>
-              </div>
-              <p>
-                Great learning and self-upgradation! Independently managed multiple projects like CRM, inventory management and eCommerce like applications.<br> 
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="service-item">
-              <div class="tags">
-                <p>Flutter</p>
-              </div>
-              <h4>Tour 360°</h4>
-              <div class="dates">
-                <p>2024</p>
-              </div>
-              <p>
-                Travel the world without leaving your seat! My latest mobile app brings you stunning 360° views of iconic locations worldwide. <a href="https://play.google.com/store/apps/details?id=com.devsmaven.tour360" target="_blank" rel="noopener noreferrer">here</a>
-                <br> 
-                <br> 
-                <br>
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="service-item">
-              <div class="tags">
-                <p>Flutter</p>
-              </div>
-              <h4>Do Not Press</h4>
-              <div class="dates">
-                <p>2023</p>
-              </div>
-              <p>
-                DO NOT PRESS <a href="https://dont-press.web.app" target="_blank" rel="noopener noreferrer">THIS</a> BUTTON!
-                <br> <br> <br> <br>
-                <br>
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="service-item">
-              <div class="tags">
-                <p>Angular</p>
-              </div>
-              <h4>Typeing Test App</h4>
-              <div class="dates">
-                <p>2023</p>
-              </div>
-              <p>Test your typing speed!  
-                <a href="https://peaceful-paprenjak-75febb.netlify.app/" target="_blank" rel="noopener noreferrer">Test</a>.
-                <br> <br> <br> <br>
-                <br>
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="service-item">
-              <div class="tags">
-                <p>HTML | CSS | Angular</p>
-              </div>
-              <a href="https://www.learnship.com/" target="_blank" rel="noopener noreferrer"><h4>Learnship</h4></a>
-              <div class="dates">
-                <p>2023</p>
-              </div>
-              <p>First Intership:
-                New place, new people, new challenges, new learnings. 
-                <br> <br> <br>
-                <br>
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="service-item">
-              <div class="tags">
-                <p>Flutter</p>
-              </div>
-              <h4>Harber</h4>
-              <div class="dates">
-                <p>2023</p>
-              </div>
-              <p>
-                Tame your wild hair with this barber shop booking app. <a
-                  href="https://github.com/kishanraj427/harber?tab=readme-ov-file#harber" target="_blank" rel="noopener noreferrer">Visit</a>. <br> <br> <br>
-                <br>
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="service-item">
-              <div class="tags">
-                <p>Master of Computer Application</p>
-              </div>
-              <h4>Vellore Institute of Technology</h4>
-              <div class="dates">
-                <p>2022-2024</p>
-              </div>
-              <p>
-                Best memories, amazing people, teamwork, management skills, and lifelong learnings.  <br> <br> <br>
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="service-item">
-              <div class="tags">
-                <p>Android Jetpack Compose | Firebase | One Signal</p>
-              </div>
-              <h4>JRSU APP</h4>
-              <div class="dates">
-                <p>2022</p>
-              </div>
-              <p>
-                "Hey, I made this 
-                <a href="https://play.google.com/store/apps/details?id=com.jrsu.jharkhand.raksha.shakti.university" target="_blank" rel="noopener noreferrer">app</a>
-                for my college mates. It sends customized academic notifications and has features like syllabus and vacation lists. Super handy!
-                <br> <br> <br>
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="service-item">
-              <div class="tags">
-                <p>Flutter | Firebase</p>
-              </div>
-              <h4>JAC eLearning</h4>
-              <div class="dates">
-                <p>2021</p>
-              </div>
-              <p>
-                Created for Jharkhand board students during lockdown, 
-                this app provides official JAC notifications, book PDFs, solutions, and last year's question papers. 
-                It's like having a personal tutor in your pocket! Download 
-                <a href="https://play.google.com/store/apps/details?id=com.jac.jacboard.jacquestion.jac_elearning" target="_blank" rel="noopener noreferrer">here</a>.  <br> 
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="service-item">
-              <div class="tags">
-                <p>Flutter</p>
-              </div>
-              <h4>PDF to Audio</h4>
-              <div class="dates">
-                <p>2021</p>
-              </div>
-              <p>
-                Want to listen your PDF try  
-                <a href="https://play.google.com/store/apps/details?id=com.devs_maven.pdftoaudiobook" target="_blank" rel="noopener noreferrer">this!</a>. Listen your PDF in multiple indian languages. <br> <br> <br> <br> 
-              </p>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="service-item">
-              <div class="tags">
-                <p>Android | XML | Kotlin | SQLite</p>
-              </div>
-              <h4>Monthly Expense Manager</h4>
-              <div class="dates">
-                <p>2021</p>
-              </div>
-              <p>
-                Building a app for myself to manage my all monthly expenses! My personal expense manager.
-                <a href="https://play.google.com/store/apps/details?id=com.shopping.handlemoney" target="_blank" rel="noopener noreferrer">Check this out!</a>
-              </p> <br> <br> 
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="service-item">
-              <div class="tags">
-                <p>BCACS</p>
-              </div>
-              <h4>JRSU</h4>
-              <div class="dates">
-                <p>2019-22</p>
-              </div>
-              <p>
-                I graduated in Computer Application and Cyber Security from Jharkhand Raksha Raskti University, 
-                was the class rep, aced it with a 9+ CGPA, and made great friends along the way! 
-                Definitely some of the best years!<br> 
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+        <ul class="projects" id="projects-grid">
+          <li class="card card--featured" data-tags="flutter" data-reveal data-tilt>
+            <p class="card__tags mono">Flutter &middot; PostgreSQL &middot; WebSocket</p>
+            <h3 class="card__title">
+              <a href="https://play.google.com/store/apps/details?id=com.wire.location" target="_blank" rel="noopener noreferrer">Wire</a>
+            </h3>
+            <p class="card__date mono">2026</p>
+            <p class="card__body">
+              Born on a bike trip, where nobody knew who was still on the right route.
+              Create a trip, set the destination and share a Trip ID. Everyone can then
+              see where the others are and how far along they are, in real time.
+            </p>
+            <p class="card__links">
+              <a href="https://play.google.com/store/apps/details?id=com.wire.location" target="_blank" rel="noopener noreferrer">Google Play</a>
+              <a href="https://github.com/kishanraj427/wayfarer-sync" target="_blank" rel="noopener noreferrer">Source</a>
+            </p>
+          </li>
 
-    </section>
+          <li class="card" data-tags="flutter" data-reveal data-tilt>
+            <p class="card__tags mono">Flutter</p>
+            <h3 class="card__title">
+              <a href="https://play.google.com/store/apps/details?id=com.devsmaven.tour360" target="_blank" rel="noopener noreferrer">Tour 360&deg;</a>
+            </h3>
+            <p class="card__date mono">2024</p>
+            <p class="card__body">
+              Travel the world without leaving your seat. Stunning 360&deg; views of
+              iconic locations, wherever you happen to be.
+            </p>
+            <p class="card__links">
+              <a href="https://play.google.com/store/apps/details?id=com.devsmaven.tour360" target="_blank" rel="noopener noreferrer">Google Play</a>
+            </p>
+          </li>
 
-    <section class="section contact-me" data-section="section4">
-      <div class="container">
-        <div class="section-heading">
-          <h2>Say Hi! 👋</h2>
-          <div class="line-dec"></div>
-          <span>Drop a mail to discuss cool ideas, know more about my projects or just say hi!<br>I'll probably write
-            back almost immedately.</span>
-        </div>
-        <div class="row">
-          <div class="right-content">
-            <div class="container">
-              <form id="contact" action="https://formspree.io/f/xzzbqjbk" method="POST">
-                <div class="row">
-                  <div class="col-md-6">
-                    <fieldset>
-                      <input name="name" type="text" class="form-control" id="name" placeholder="Name" required="" />
-                    </fieldset>
-                  </div>
-                  <div class="col-md-6">
-                    <fieldset>
-                      <input name="_replyto" type="text" class="form-control" id="email" placeholder="Email"
-                        required="" />
-                    </fieldset>
-                  </div>
-                  <div class="col-md-12">
-                    <fieldset>
-                      <input name="subject" type="text" class="form-control" id="subject" placeholder="Subject"
-                        required="" />
-                    </fieldset>
-                  </div>
-                  <div class="col-md-12">
-                    <fieldset>
-                      <textarea name="message" rows="6" class="form-control" id="message" placeholder="Message"
-                        required=""></textarea>
-                    </fieldset>
-                  </div>
-                  <div class="col-md-12">
-                    <fieldset>
-                      <button type="submit" id="form-submit" class="button">
-                        Send
-                      </button>
-                    </fieldset>
-                  </div>
-                </div>
-              </form>
+          <li class="card" data-tags="flutter" data-reveal data-tilt>
+            <p class="card__tags mono">Flutter</p>
+            <h3 class="card__title">
+              <a href="https://github.com/kishanraj427/harber?tab=readme-ov-file#harber" target="_blank" rel="noopener noreferrer">Harber</a>
+            </h3>
+            <p class="card__date mono">2023</p>
+            <p class="card__body">
+              Tame your wild hair. Book a slot at the nearest barber shop instead of
+              queueing for one.
+            </p>
+            <p class="card__links">
+              <a href="https://github.com/kishanraj427/harber?tab=readme-ov-file#harber" target="_blank" rel="noopener noreferrer">Source</a>
+            </p>
+          </li>
+
+          <li class="card" data-tags="android" data-reveal data-tilt>
+            <p class="card__tags mono">Jetpack Compose &middot; Firebase &middot; OneSignal</p>
+            <h3 class="card__title">
+              <a href="https://play.google.com/store/apps/details?id=com.jrsu.jharkhand.raksha.shakti.university" target="_blank" rel="noopener noreferrer">JRSU App</a>
+            </h3>
+            <p class="card__date mono">2022</p>
+            <p class="card__body">
+              The official app for Jharkhand Raksha Shakti University, where I did my
+              B.Sc. Customised academic notifications, syllabus and vacation lists, built
+              for my coursemates.
+            </p>
+            <p class="card__links">
+              <a href="https://play.google.com/store/apps/details?id=com.jrsu.jharkhand.raksha.shakti.university" target="_blank" rel="noopener noreferrer">Google Play</a>
+            </p>
+          </li>
+
+          <li class="card" data-tags="flutter" data-reveal data-tilt>
+            <p class="card__tags mono">Flutter &middot; Firebase</p>
+            <h3 class="card__title">
+              <a href="https://play.google.com/store/apps/details?id=com.jac.jacboard.jacquestion.jac_elearning" target="_blank" rel="noopener noreferrer">JAC eLearning</a>
+            </h3>
+            <p class="card__date mono">2021</p>
+            <p class="card__body">
+              Built for Jharkhand board students during lockdown: official JAC
+              notifications, book PDFs, solutions and past question papers. About as close
+              as you get to a tutor in your pocket.
+            </p>
+            <p class="card__links">
+              <a href="https://play.google.com/store/apps/details?id=com.jac.jacboard.jacquestion.jac_elearning" target="_blank" rel="noopener noreferrer">Google Play</a>
+            </p>
+          </li>
+
+          <li class="card" data-tags="flutter" data-reveal data-tilt>
+            <p class="card__tags mono">Flutter</p>
+            <h3 class="card__title">
+              <a href="https://play.google.com/store/apps/details?id=com.devs_maven.pdftoaudiobook" target="_blank" rel="noopener noreferrer">PDF to Audio</a>
+            </h3>
+            <p class="card__date mono">2021</p>
+            <p class="card__body">
+              Listen to your PDFs instead of reading them, in multiple Indian languages.
+            </p>
+            <p class="card__links">
+              <a href="https://play.google.com/store/apps/details?id=com.devs_maven.pdftoaudiobook" target="_blank" rel="noopener noreferrer">Google Play</a>
+            </p>
+          </li>
+
+          <li class="card" data-tags="android" data-reveal data-tilt>
+            <p class="card__tags mono">Android &middot; Kotlin &middot; SQLite</p>
+            <h3 class="card__title">
+              <a href="https://play.google.com/store/apps/details?id=com.shopping.handlemoney" target="_blank" rel="noopener noreferrer">Monthly Expense Manager</a>
+            </h3>
+            <p class="card__date mono">2021</p>
+            <p class="card__body">
+              Built for myself, to track where the money actually goes each month. Turned
+              out other people wanted it too.
+            </p>
+            <p class="card__links">
+              <a href="https://play.google.com/store/apps/details?id=com.shopping.handlemoney" target="_blank" rel="noopener noreferrer">Google Play</a>
+            </p>
+          </li>
+
+          <li class="card" data-tags="web" data-reveal data-tilt>
+            <p class="card__tags mono">Angular</p>
+            <h3 class="card__title">
+              <a href="https://peaceful-paprenjak-75febb.netlify.app/" target="_blank" rel="noopener noreferrer">Typing Test</a>
+            </h3>
+            <p class="card__date mono">2023</p>
+            <p class="card__body">
+              Test your typing speed. Simple, fast, and mildly humbling.
+            </p>
+            <p class="card__links">
+              <a href="https://peaceful-paprenjak-75febb.netlify.app/" target="_blank" rel="noopener noreferrer">Try it</a>
+            </p>
+          </li>
+
+          <li class="card" data-tags="web flutter" data-reveal data-tilt>
+            <p class="card__tags mono">Flutter Web</p>
+            <h3 class="card__title">
+              <a href="https://dont-press.web.app" target="_blank" rel="noopener noreferrer">Do Not Press</a>
+            </h3>
+            <p class="card__date mono">2023</p>
+            <p class="card__body">
+              There is a button. You should not press it. People press it.
+            </p>
+            <p class="card__links">
+              <a href="https://dont-press.web.app" target="_blank" rel="noopener noreferrer">Don&#39;t press</a>
+            </p>
+          </li>
+        </ul>
+
+        <p class="projects__empty mono" hidden>Nothing here yet. Try another filter.</p>
+      </section>
+
+      <!-- 05 / Say Hi -->
+      <section class="section" id="contact">
+        <header class="section-head" data-reveal>
+          <p class="section-number mono">05</p>
+          <h2>Say Hi! &#128075;</h2>
+          <div class="rule" aria-hidden="true"></div>
+          <p class="section-lede">
+            Drop a mail to discuss cool ideas, ask about my projects, or just say hi.
+            I&#39;ll probably write back almost immediately.
+          </p>
+        </header>
+
+        <form id="contact-form" class="form" action="https://formspree.io/f/xzzbqjbk" method="POST" novalidate data-reveal>
+          <div class="form__row">
+            <div class="field">
+              <label for="field-name">Name</label>
+              <input id="field-name" name="name" type="text" autocomplete="name" required
+                     aria-describedby="err-name" />
+              <p class="field__error" id="err-name" hidden>Please tell me your name.</p>
+            </div>
+
+            <div class="field">
+              <label for="field-email">Email</label>
+              <input id="field-email" name="_replyto" type="email" autocomplete="email" required
+                     aria-describedby="err-email" />
+              <p class="field__error" id="err-email" hidden>That doesn&#39;t look like an email address.</p>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
+
+          <div class="field">
+            <label for="field-subject">Subject</label>
+            <input id="field-subject" name="subject" type="text" required
+                   aria-describedby="err-subject" />
+            <p class="field__error" id="err-subject" hidden>What&#39;s this about?</p>
+          </div>
+
+          <div class="field">
+            <label for="field-message">Message</label>
+            <textarea id="field-message" name="message" rows="6" required
+                      aria-describedby="err-message"></textarea>
+            <p class="field__error" id="err-message" hidden>Don&#39;t leave it blank.</p>
+          </div>
+
+          <div class="form__actions">
+            <button class="button button--primary" type="submit" data-magnetic>
+              <span class="form__label">Send</span>
+            </button>
+            <p class="form__status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>
+        Built by hand by Raj Kishan Prasad. No frameworks, no build step.
+        <a href="https://github.com/kishanraj427/kishanraj427.github.io" target="_blank" rel="noopener noreferrer">Source on GitHub</a>.
+      </p>
+    </footer>
   </div>
 
-  <!-- Scripts -->
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <script src="assets/js/isotope.min.js"></script>
-  <script src="assets/js/owl-carousel.js"></script>
-  <script src="assets/js/lightbox.js"></script>
-  <script src="assets/js/custom.js"></script>
-  <script>
-    //according to loftblog tut
-    $(".main-menu li:first").addClass("active");
-
-    var showSection = function showSection(section, isAnimate) {
-      var direction = section.replace(/#/, ""),
-        reqSection = $(".section").filter(
-          '[data-section="' + direction + '"]'
-        ),
-        reqSectionPos = reqSection.offset().top - 0;
-
-      if (isAnimate) {
-        $("body, html").animate(
-          {
-            scrollTop: reqSectionPos
-          },
-          800
-        );
-      } else {
-        $("body, html").scrollTop(reqSectionPos);
-      }
-    };
-
-    var checkSection = function checkSection() {
-      $(".section").each(function () {
-        var $this = $(this),
-          topEdge = $this.offset().top - 80,
-          bottomEdge = topEdge + $this.height(),
-          wScroll = $(window).scrollTop();
-        if (topEdge < wScroll && bottomEdge > wScroll) {
-          var currentId = $this.data("section"),
-            reqLink = $("a").filter("[href*=\\#" + currentId + "]");
-          reqLink
-            .closest("li")
-            .addClass("active")
-            .siblings()
-            .removeClass("active");
-        }
-      });
-    };
-
-    $(".main-menu").on("click", "a", function (e) {
-      e.preventDefault();
-      showSection($(this).attr("href"), true);
-    });
-
-    $(window).scroll(function () {
-      checkSection();
-    });
-  </script>
+  <script type="module" src="assets/js/main.js"></script>
 </body>
 
 </html>
