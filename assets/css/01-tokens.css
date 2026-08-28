@@ -46,10 +46,16 @@
   --shadow-2: 0 4px 12px rgb(28 26 23 / 8%), 0 12px 32px rgb(28 26 23 / 6%);
   --glow: 0 0 0 1px rgb(47 158 94 / 28%), 0 6px 24px rgb(47 158 94 / 18%);
 
-  /* sky, used by the hero backdrop only */
-  --sky-top: #cfe6f5;
+  /* Hero backdrop. Two large, soft colour washes that drift slowly behind the
+     content. Abstract, not illustrative: no objects, nothing to "spot". The
+     washes are the only thing that moves, and they differ per theme. */
+  --sky-top: #eef4f4;
   --sky-bottom: #faf6ef;
-  --star-opacity: 0;
+  --wash-a: #2f9e5e;
+  --wash-b: #e0952f;
+  --wash-opacity: 0.10;
+  --star-opacity: 0;   /* stars are a night-only detail */
+  --bird-opacity: 0.5; /* the bird only flies by day */
 
   /* ── type ────────────────────────────────────────────────────────────── */
   /* Lato retained from the original site — the user found the display
@@ -118,7 +124,11 @@
   --shadow-2: 0 4px 12px rgb(0 0 0 / 45%), 0 12px 32px rgb(0 0 0 / 35%);
   --glow: 0 0 0 1px rgb(57 211 238 / 32%), 0 6px 24px rgb(57 211 238 / 22%);
 
-  --sky-top: #060910;
+  --sky-top: #0a1020;
   --sky-bottom: #0d1117;
-  --star-opacity: 1;
+  --wash-a: #39d3ee;
+  --wash-b: #5b6ee8;
+  --wash-opacity: 0.16;
+  --star-opacity: 0.85;
+  --bird-opacity: 0;
 }

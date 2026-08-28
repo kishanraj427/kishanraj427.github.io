@@ -7,6 +7,7 @@ import { initHero } from './hero.js';
 import { initTimeline } from './timeline.js';
 import { initFilters, initTilt } from './filters.js';
 import { initContact } from './contact.js';
+import { initAmbient } from './ambient.js';
 
 initTheme();
 initNav();
@@ -16,6 +17,7 @@ initTimeline();
 initFilters();
 initTilt();
 initContact();
+initAmbient();
 
 /* The boot script sets `no-transitions` so applying the stored theme at load
    does not play the wipe. Two nested frames, not one: the class must survive
