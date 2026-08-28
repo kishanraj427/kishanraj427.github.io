@@ -1,0 +1,134 @@
+/* ===========================================================================
+   01-tokens.css — the ONLY file in this project allowed to contain literal
+   colour values. Every other stylesheet consumes these custom properties.
+   Themes swap values, never rules.
+
+   Measured contrast ratios (WCAG 2.1, sRGB). Target: 4.5:1 body, 3:1 large/UI.
+
+   DAY (canvas #faf6ef, surface #fffdf8)
+     --text       #1c1a17  canvas  16.12:1   surface  17.08:1   body
+     --text-muted #6b6459  canvas   5.43:1   surface   5.75:1   body
+     --accent-ink #1d6b3f  canvas   6.04:1   surface   6.40:1   body
+     --accent     #2f9e5e  canvas   3.16:1   surface   3.35:1   decoration + large
+     --border     #e6ddcd  canvas   1.25:1   surface   1.33:1   non-contrast
+
+   NIGHT (canvas #0d1117, surface #161b22)
+     --text       #e8e6e3  canvas  15.19:1   surface  13.89:1   body
+     --text-muted #9aa4b2  canvas   7.50:1   surface   6.86:1   body
+     --accent-ink #7fe4f7  canvas  12.93:1   surface  11.81:1   body
+     --accent     #39d3ee  canvas  10.57:1   surface   9.66:1   decoration + large
+     --border     #2a323d  canvas   1.46:1   surface   1.34:1   non-contrast
+
+   Note --accent-ink inverts direction between themes: darker than --accent on
+   the light canvas, lighter on the dark one. --accent is never used for text
+   at body size in either theme; scripts/check.py cannot enforce that, so it is
+   a review rule.
+   ========================================================================= */
+
+:root {
+  /* ── day palette ─────────────────────────────────────────────────────── */
+  --canvas: #faf6ef;
+  --surface: #fffdf8;
+  --text: #1c1a17;
+  --text-muted: #6b6459;
+  --accent: #2f9e5e;
+  --accent-ink: #1d6b3f;
+  --secondary: #e0952f;
+  --border: #e6ddcd;
+
+  /* chip behind skill logos: a raised plate that follows the theme.
+     A light plate in dark mode was measured and rejected — it destroys the
+     16 light-coloured logos (React would fall to ~1.3:1). */
+  --chip: #f2ece1;
+  --danger: #a4362f;
+
+  --shadow-1: 0 1px 2px rgb(28 26 23 / 6%), 0 2px 8px rgb(28 26 23 / 4%);
+  --shadow-2: 0 4px 12px rgb(28 26 23 / 8%), 0 12px 32px rgb(28 26 23 / 6%);
+  --glow: 0 0 0 1px rgb(47 158 94 / 28%), 0 6px 24px rgb(47 158 94 / 18%);
+
+  /* Hero backdrop. Two large, soft colour washes that drift slowly behind the
+     content. Abstract, not illustrative: no objects, nothing to "spot". The
+     washes are the only thing that moves, and they differ per theme. */
+  --sky-top: #eef4f4;
+  --sky-bottom: #faf6ef;
+  --wash-a: #2f9e5e;
+  --wash-b: #e0952f;
+  --wash-opacity: 0.10;
+  --star-opacity: 0;   /* stars are a night-only detail */
+  --bird-opacity: 0.5; /* the bird only flies by day */
+
+  /* ── type ────────────────────────────────────────────────────────────── */
+  /* Lato retained from the original site — the user found the display
+     serif unprofessional for a recruiter-facing page. Lato carries both
+     display and body; JetBrains Mono is metadata only (dates, section
+     numbers, tech tags). Measured 88.2 KB, within the 120 KB budget. */
+  --font-display: "Lato", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body: "Lato", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --step--1: clamp(0.83rem, 0.80rem + 0.14vw, 0.91rem);
+  --step-0: clamp(1.00rem, 0.95rem + 0.22vw, 1.13rem);
+  --step-1: clamp(1.20rem, 1.11rem + 0.43vw, 1.44rem);
+  --step-2: clamp(1.44rem, 1.29rem + 0.74vw, 1.84rem);
+  --step-3: clamp(1.73rem, 1.49rem + 1.19vw, 2.35rem);
+  --step-4: clamp(2.07rem, 1.71rem + 1.83vw, 3.00rem);
+  --step-5: clamp(2.49rem, 1.94rem + 2.74vw, 3.83rem);
+
+  --leading-tight: 1.15;
+  --leading-body: 1.65;
+  --measure: 62ch;
+
+  /* ── spacing ─────────────────────────────────────────────────────────── */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-s: 1rem;
+  --space-m: 1.5rem;
+  --space-l: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4.5rem;
+  --space-3xl: 7rem;
+
+  /* ── radii ───────────────────────────────────────────────────────────── */
+  --radius-s: 6px;
+  --radius-m: 12px;
+  --radius-l: 20px;
+  --radius-pill: 999px;
+
+  /* ── motion (never redefined per theme) ──────────────────────────────── */
+  --dur-fast: 160ms;
+  --dur-base: 320ms;
+  --dur-slow: 620ms;
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --stagger: 60ms;
+
+  /* ── layout ──────────────────────────────────────────────────────────── */
+  --sidebar-w: 17.5rem;
+  --container: 62rem;
+}
+
+:root[data-theme="night"] {
+  --canvas: #0d1117;
+  --surface: #161b22;
+  --text: #e8e6e3;
+  --text-muted: #9aa4b2;
+  --accent: #39d3ee;
+  --accent-ink: #7fe4f7;
+  --secondary: #c3cad6;
+  --border: #2a323d;
+  --chip: #1e242c;
+  --danger: #ff8f85;
+
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 40%), 0 2px 8px rgb(0 0 0 / 30%);
+  --shadow-2: 0 4px 12px rgb(0 0 0 / 45%), 0 12px 32px rgb(0 0 0 / 35%);
+  --glow: 0 0 0 1px rgb(57 211 238 / 32%), 0 6px 24px rgb(57 211 238 / 22%);
+
+  --sky-top: #0a1020;
+  --sky-bottom: #0d1117;
+  --wash-a: #39d3ee;
+  --wash-b: #5b6ee8;
+  --wash-opacity: 0.16;
+  --star-opacity: 0.85;
+  --bird-opacity: 0;
+}

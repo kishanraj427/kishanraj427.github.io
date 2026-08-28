@@ -1,0 +1,599 @@
+/* ===========================================================================
+   04-components.css — card, tile, timeline, chip, button, badge, form, stat.
+   Consumes tokens from 01-tokens.css. No literal colours.
+   ========================================================================= */
+
+/* ── theme toggle ──────────────────────────────────────────────────────────
+   A sun that is eaten into a crescent moon. The mask circle slides from clear
+   of the disc (cx 26 = full sun) to biting into it (cx 15 = crescent), and the
+   rays retract at the same time. No cross-fade between two icons. */
+
+.theme-toggle {
+  position: fixed;
+  top: var(--space-s);
+  right: var(--space-s);
+  z-index: 60;
+
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-1);
+  color: var(--secondary);
+  cursor: pointer;
+
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.theme-toggle:hover {
+  box-shadow: var(--glow);
+  transform: translateY(-1px);
+}
+
+.theme-toggle:active { transform: translateY(0) scale(0.96); }
+
+.theme-toggle__icon {
+  width: 1.375rem;
+  height: 1.375rem;
+  overflow: visible;
+}
+
+.theme-toggle__disc {
+  fill: currentColor;
+  transition: fill var(--dur-base) var(--ease-inout);
+}
+
+.theme-toggle__bite {
+  /* cx is animated, so it must be a presentation attribute we can transition */
+  transition: cx var(--dur-base) var(--ease-inout);
+}
+
+.theme-toggle__rays {
+  stroke: currentColor;
+  stroke-width: 2;
+  transform-origin: center;
+  transition:
+    opacity var(--dur-base) var(--ease-inout),
+    transform var(--dur-base) var(--ease-inout);
+}
+
+/* night: bite the disc into a crescent, retract the rays */
+:root[data-theme="night"] .theme-toggle__bite { cx: 15; }
+
+:root[data-theme="night"] .theme-toggle__rays {
+  opacity: 0;
+  transform: scale(0.4) rotate(-45deg);
+}
+
+/* day: full sun, rays out */
+:root[data-theme="day"] .theme-toggle__bite { cx: 26; }
+
+:root[data-theme="day"] .theme-toggle__rays {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── buttons ───────────────────────────────────────────────────────────── */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-2xs) var(--space-m);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  will-change: transform;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.button:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  box-shadow: var(--glow);
+}
+
+.button--primary {
+  background: var(--accent-ink);
+  border-color: var(--accent-ink);
+  color: var(--surface);
+}
+
+.button--primary:hover {
+  color: var(--surface);
+  border-color: var(--accent-ink);
+}
+
+/* ── stat strip ────────────────────────────────────────────────────────── */
+
+/* Four metrics in a 4 x 1 row, folding to 2 x 2 on narrow screens. A grid
+   rather than a flex row so the values stay aligned on their own baseline
+   instead of wrapping unevenly. */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-m) var(--space-l);
+  padding: 0;
+  margin-block: var(--space-m);
+  max-width: 34rem;
+}
+
+@media (max-width: 520px) {
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.stat {
+  display: grid;
+  gap: 2px;
+}
+
+.stat__value {
+  font-size: var(--step-2);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--accent-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat__label {
+  font-size: var(--step--1);
+  line-height: 1.35;
+}
+
+/* ── Wire badge ────────────────────────────────────────────────────────── */
+
+.wire-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-3xs) var(--space-s) var(--space-3xs) var(--space-2xs);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: var(--step--1);
+  text-decoration: none;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.wire-badge:hover {
+  color: var(--text);
+  border-color: var(--accent);
+  transform: translateX(2px);
+}
+
+.wire-badge strong { color: var(--text); }
+
+.wire-badge__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.wire-badge__arrow {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ── section header ────────────────────────────────────────────────────── */
+
+.section-head {
+  display: grid;
+  gap: var(--space-2xs);
+  margin-block-end: var(--space-xl);
+}
+
+.section-number {
+  font-size: var(--step--1);
+  color: var(--accent-ink);
+  letter-spacing: 0.16em;
+}
+
+.section-pronouns { color: var(--text-muted); }
+
+.rule {
+  width: 3.5rem;
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+}
+
+.section-lede {
+  color: var(--text-muted);
+  font-size: var(--step-1);
+  max-width: 44ch;
+}
+
+/* ── prose ─────────────────────────────────────────────────────────────── */
+
+.prose {
+  display: grid;
+  gap: var(--space-m);
+  font-size: var(--step-0);
+}
+
+.prose p { max-width: var(--measure); }
+
+.prose__ps {
+  padding-inline-start: var(--space-s);
+  border-inline-start: 2px solid var(--accent);
+  color: var(--text-muted);
+}
+
+/* ── skill tiles ───────────────────────────────────────────────────────────
+   The logos are fixed-colour PNGs that do not respond to the theme, so each
+   sits on a chip that follows the theme: a plate slightly darker than the
+   surface by day, slightly lighter by night.
+
+   A LIGHT plate in dark mode was tried and measured, then rejected. Judging
+   the assets by mean luminance suggested several logos were "too dark for a
+   dark canvas"; that metric is skewed by anti-aliased edges. Measuring the
+   darkest ink in each mark shows only 4 of 20 (android, jetpack-compose, c,
+   playwright) carry genuinely dark ink, while a light plate would have
+   destroyed the 16 light ones — React drops to 1.37:1 on it.
+
+   With a theme-following chip, night-theme separation is 5.3:1 to 15.6:1
+   across all 20. In day theme the light-coloured marks (React 1.37:1,
+   web 1.79:1, node 1.87:1) are inherently soft on any light surface — this is
+   equally true on the current live site and on React's own branding. It is
+   acceptable here because every tile carries a visible text label, so the logo
+   is decorative and never the sole carrier of meaning.
+
+   No logo is recoloured, inverted or filtered, and adding a new one later
+   needs no per-asset tuning. */
+
+/* Fixed 4-column grid: 20 tiles resolve to a clean 4 x 5 block. */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-s);
+  padding: 0;
+}
+
+@media (max-width: 1100px) {
+  .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 620px) {
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.tile {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2xs);
+  padding: var(--space-s) var(--space-2xs);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  text-align: center;
+  will-change: transform;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.tile__chip {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: var(--radius-m);
+  /* the chip is what keeps dark logos legible on the night canvas */
+  background: var(--chip);
+  transition: background var(--dur-slow) var(--ease-inout);
+}
+
+.tile__chip img {
+  width: 2rem;
+  height: 2rem;
+  object-fit: contain;
+}
+
+.tile__name {
+  font-size: var(--step--1);
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.tile:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: var(--glow);
+}
+
+.tile:hover .tile__name { color: var(--text); }
+
+/* ── career timeline ───────────────────────────────────────────────────── */
+
+.timeline { position: relative; }
+
+.timeline__track {
+  position: absolute;
+  inset-block: 0.6rem 0;
+  inset-inline-start: 0.4375rem;
+  width: 2px;
+  background: var(--border);
+  border-radius: var(--radius-pill);
+}
+
+/* Drawn by scaling, not by stroke-dashoffset: scaleY is GPU-composited and
+   keeps the project's "transform and opacity only" rule. */
+.timeline__line {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, var(--accent), var(--accent-ink));
+  border-radius: inherit;
+  transform: scaleY(var(--draw, 0));
+  transform-origin: top center;
+  will-change: transform;
+}
+
+.timeline__list {
+  display: grid;
+  gap: var(--space-xl);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.tl {
+  position: relative;
+  padding-inline-start: var(--space-l);
+}
+
+.tl__node {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.55rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  border: 3px solid var(--canvas);
+  box-shadow: 0 0 0 1px var(--border);
+  transition: background var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out);
+}
+
+/* education reads as a distinct kind of entry: hollow node, muted rule */
+.tl--edu .tl__node {
+  background: var(--canvas);
+  box-shadow: 0 0 0 2px var(--text-muted);
+}
+
+.tl--edu .tl__role { color: var(--text-muted); }
+
+.tl__dates {
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.tl__role {
+  font-size: var(--step-1);
+  margin-block: 2px;
+}
+
+.tl__org {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2xs);
+  font-weight: 700;
+  margin-block-end: var(--space-2xs);
+}
+
+.tl__org a { text-decoration: none; }
+.tl__org a:hover { text-decoration: underline; }
+
+.tl__meta {
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.tl__body { color: var(--text-muted); }
+
+/* ── filter chips ──────────────────────────────────────────────────────── */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+  margin-block-end: var(--space-l);
+}
+
+.chip {
+  padding: var(--space-3xs) var(--space-s);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: var(--step--1);
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.chip:hover { color: var(--text); border-color: var(--accent); }
+
+.chip[aria-checked="true"] {
+  background: var(--accent-ink);
+  border-color: var(--accent-ink);
+  color: var(--surface);
+}
+
+/* ── project cards ─────────────────────────────────────────────────────── */
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-m);
+  padding: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  padding: var(--space-m);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out),
+    transform var(--dur-base) var(--ease-out);
+}
+
+.card:hover { border-color: var(--accent); box-shadow: var(--shadow-2); }
+
+.card--featured {
+  grid-column: 1 / -1;
+  border-color: var(--accent);
+  box-shadow: var(--glow);
+}
+
+.card__tags { color: var(--accent-ink); font-size: var(--step--1); }
+
+.card__title { font-size: var(--step-2); margin-block: 2px; }
+.card__title a { color: var(--text); text-decoration: none; }
+.card__title a:hover { color: var(--accent-ink); }
+
+.card--featured .card__title { font-size: var(--step-3); }
+
+.card__date { color: var(--text-muted); }
+
+.card__body { color: var(--text-muted); margin-block: var(--space-2xs) auto; }
+
+.card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+  margin-block-start: var(--space-s);
+  font-weight: 700;
+  font-size: var(--step--1);
+}
+
+.projects__empty { color: var(--text-muted); }
+
+@media (max-width: 720px) {
+  .projects { grid-template-columns: 1fr; }
+}
+
+/* ── contact form ──────────────────────────────────────────────────────── */
+
+.form {
+  display: grid;
+  gap: var(--space-m);
+  max-width: 44rem;
+}
+
+.form__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-m);
+}
+
+.field { display: grid; gap: var(--space-3xs); }
+
+.field label {
+  font-size: var(--step--1);
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.field input,
+.field textarea {
+  padding: var(--space-2xs) var(--space-xs);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-s);
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  transition:
+    border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.field input:focus,
+.field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--glow);
+}
+
+.field textarea { resize: vertical; min-height: 8rem; }
+
+.field input.is-invalid,
+.field textarea.is-invalid { border-color: var(--danger); }
+
+.field__error {
+  font-size: var(--step--1);
+  color: var(--danger);
+}
+
+.form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-s);
+}
+
+.form__status {
+  font-size: var(--step--1);
+  color: var(--text-muted);
+}
+
+.form[data-state="success"] .form__status { color: var(--accent-ink); }
+.form[data-state="error"] .form__status { color: var(--danger); }
+
+.form button[disabled] { opacity: 0.6; cursor: progress; }
+
+@media (max-width: 620px) {
+  .form__row { grid-template-columns: 1fr; }
+}
+
+/* ── footer ────────────────────────────────────────────────────────────── */
+
+.footer {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding: var(--space-l) var(--space-m) var(--space-xl);
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--step--1);
+}
