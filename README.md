@@ -10,7 +10,7 @@ This portfolio is designed to be lightweight, responsive, and visually appealing
 
 The site includes:
 - **About Section:** A brief introduction to who I am and my engineering philosophy.
-- **Experience:** A timeline of my professional roles (e.g., essentia.dev, Wit By Bit).
+- **Experience:** A timeline of my professional roles (e.g., Eicore, essentia.dev, Wit By Bit).
 - **Projects:** Hand-picked projects demonstrating my skills across different tech stacks.
 - **Contact:** Links to my GitHub, LinkedIn, and email.
 
@@ -19,7 +19,7 @@ The site includes:
 This project is built using core web technologies to ensure maximum performance and minimal overhead:
 - **HTML5:** Semantic structure.
 - **CSS3:** Custom styling, animations, and responsive layout.
-- **JavaScript (Vanilla):** Interactive elements, DOM manipulation, and dynamic content.
+- **JavaScript (jQuery):** Interactive elements, DOM manipulation, and dynamic content.
 
 ## 📂 Repository Structure
 
