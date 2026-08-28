@@ -314,7 +314,7 @@
 /* A quick blink, not a slow fade. Rises fast, holds for a beat, falls off
    slower, which is what makes it register as a flash rather than a pulse. */
 .hero__star.is-twinkling {
-  animation: twinkle 1.1s var(--ease-out);
+  animation: twinkle 0.68s var(--ease-out);
 }
 
 @keyframes twinkle {

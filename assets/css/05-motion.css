@@ -17,21 +17,23 @@
 
 /* ── theme wipe ────────────────────────────────────────────────────────────
    A circular reveal expanding from the toggle button's own coordinates.
-   theme.js sets --wipe-x / --wipe-y / --wipe-r immediately before starting
-   the view transition. */
+   theme.js owns the wipe: it measures the toggle button and animates the
+   pseudo-element directly. Nothing here needs to know the origin. */
 
-::view-transition-old(root) {
-  animation: none;
-}
-
+/* Both default cross-fades are switched off. theme.js animates
+   ::view-transition-new(root) directly via element.animate(), passing the
+   button's coordinates as literal pixels. Doing it in CSS meant the keyframes
+   had to inherit custom properties into the view-transition pseudo tree, and
+   when that failed the wipe silently fell back to a centred origin. */
+::view-transition-old(root),
 ::view-transition-new(root) {
-  animation: theme-wipe var(--dur-slow) var(--ease-inout);
+  animation: none;
+  mix-blend-mode: normal;
 }
 
-@keyframes theme-wipe {
-  from { clip-path: circle(0 at var(--wipe-x, 50%) var(--wipe-y, 50%)); }
-  to   { clip-path: circle(var(--wipe-r, 150vmax) at var(--wipe-x, 50%) var(--wipe-y, 50%)); }
-}
+/* The old snapshot sits underneath while the new one is clipped open over it. */
+::view-transition-old(root) { z-index: 0; }
+::view-transition-new(root) { z-index: 1; }
 
 /* Fixed elements are snapshotted in place by the View Transitions API and
    otherwise appear to duplicate or jump during the wipe. Naming each one

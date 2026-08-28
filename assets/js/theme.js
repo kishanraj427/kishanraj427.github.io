@@ -50,11 +50,40 @@ export function initTheme() {
       Math.max(x, innerWidth - x),
       Math.max(y, innerHeight - y)
     );
-    const root = document.documentElement;
-    root.style.setProperty('--wipe-x', `${x}px`);
-    root.style.setProperty('--wipe-y', `${y}px`);
-    root.style.setProperty('--wipe-r', `${far}px`);
 
-    document.startViewTransition(() => apply(next));
+    const transition = document.startViewTransition(() => apply(next));
+
+    // Drive the wipe from JS with literal pixel values rather than from CSS
+    // keyframes reading custom properties.
+    //
+    // ::view-transition-new(root) lives in the view-transition pseudo tree,
+    // not the normal DOM. A keyframe there has to inherit --wipe-x/y from
+    // :root AND resolve it at the moment the keyframes are computed. When that
+    // fails the keyframe silently falls back to its default origin, so the
+    // wipe starts from the middle of the screen instead of the button. That
+    // resolution differs between Chrome versions, which made the same page
+    // behave differently on two machines. Passing numbers straight into
+    // element.animate() removes the indirection entirely.
+    transition.ready
+      .then(() => {
+        const cs = getComputedStyle(document.documentElement);
+        const ms = parseFloat(cs.getPropertyValue('--dur-slow')) || 620;
+        const easing = cs.getPropertyValue('--ease-inout').trim() || 'ease-in-out';
+
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${far}px at ${x}px ${y}px)`,
+            ],
+          },
+          {
+            duration: ms,
+            easing,
+            pseudoElement: '::view-transition-new(root)',
+          }
+        );
+      })
+      .catch(() => { /* transition skipped; the theme still applied */ });
   });
 }

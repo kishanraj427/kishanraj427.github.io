@@ -5,12 +5,12 @@
    same rhythm every cycle and the eye learns it within a minute. Random gaps
    read as incidental instead.
 
-   Night gets an occasional star twinkle, day gets a small flock of 2 to 4
+   Night gets bursts of 2 to 4 star twinkles, day gets a flock of 2 to 4
    birds crossing. Both are
    scheduled regardless of theme, and the CSS opacity tokens decide which one
    is actually visible, so the toggle never has to restart a timer. */
 
-const STAR_GAP = [1400, 4200];   // ms between twinkles
+const STAR_GAP = [850, 2400];    // ms between bursts of twinkles
 const BIRD_GAP = [9000, 20000];  // ms between fly-pasts
 
 const rand = (min, max) => min + Math.random() * (max - min);
@@ -44,10 +44,18 @@ export function initAmbient() {
 
   if (stars.length) {
     loop(() => {
-      // one star at a time, never the same one twice running
       const idle = stars.filter(s => !s.classList.contains('is-twinkling'));
       if (!idle.length) return;
-      once(idle[Math.floor(Math.random() * idle.length)], 'is-twinkling');
+
+      // 2 to 4 at once, picked at random from whatever is not already lit
+      const count = Math.min(idle.length, 2 + Math.floor(Math.random() * 3));
+      const pick = idle.sort(() => Math.random() - 0.5).slice(0, count);
+
+      pick.forEach(star => {
+        // a short random offset each, so they never blink in unison
+        star.style.animationDelay = `${rand(0, 240)}ms`;
+        once(star, 'is-twinkling');
+      });
     }, STAR_GAP);
   }
 
