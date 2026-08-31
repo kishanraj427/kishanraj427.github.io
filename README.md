@@ -1,6 +1,6 @@
 # 👨‍💻 Raj Kishan Prasad - Personal Portfolio
 
-Welcome to the repository for my personal portfolio website. This site serves as a digital resume and a showcase of my projects, experience, and skills as a Full Stack Software Engineer.
+Welcome to the repository for my personal portfolio website. This site serves as a digital resume and a showcase of my projects, experience, and skills as a Senior Software Engineer.
 
 🔗 **Live Site:** [kishanraj427.github.io](https://kishanraj427.github.io)
 
