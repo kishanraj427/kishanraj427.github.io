@@ -508,8 +508,9 @@ user supplied this instead of picking a drafted pitch line, so it is their
 voice, not invented copy.
 
 - **Current focus:** AI-powered SaaS products at Eicore Technologies —
-  integrating AI into production web and mobile ecosystems without sacrificing
-  performance or code quality. This is what OneBuzz is; the Eicore card should
+  integrating AI into production without sacrificing performance or code
+  quality. **OneBuzz is a web product for the insurance sector, not mobile** —
+  corrected 2026-08-31 after the site initially described it as web and mobile. This is what OneBuzz is; the Eicore card should
   say so rather than naming the product alone.
 - **Security-first mindset:** an early background in Cyber Security (the JRSU
   B.Sc) means they approach development security-first and systems-level. This
