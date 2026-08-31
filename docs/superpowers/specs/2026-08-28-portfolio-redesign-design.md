@@ -245,7 +245,7 @@ here). Every figure is verifiable from site content:
 
 | Figure | Derivation |
 |---|---|
-| 2+ years of experience | Jan 2024 (Wit/Bit) to present. The user asked to count from Jan 2024, which excludes the Learnship internship. |
+| 2+ years of experience | Jan 2024 (Wit/Bit, first full-time role) to present. **Deliberately excludes the Learnship internship**: companies count professional experience from the first full-time role, so counting an internship would inflate the figure and would not survive an interview. Do not "correct" this upward to 3+. |
 | 5+ enterprise projects delivered | Derived from the Career timeline copy: OneBuzz, insurance web apps, CRM, inventory management, eCommerce. **User-supplied claim, not machine-verifiable.** |
 | 4+ domains worked in | AI SaaS, insurance, retail/eCommerce, CRM and inventory. **User-supplied claim, not machine-verifiable.** |
 | 5★ HackerRank Problem Solving | The user's HackerRank rating. |
