@@ -364,6 +364,10 @@ Filter chips are radio-grouped, keyboard-operable, and announce state.
 
 ### Sidebar and navigation
 
+> **Superseded 2026-09-20** by `2026-09-20-responsive-architecture-design.md`:
+> the mobile drawer is replaced by a bottom floating nav bar, and the shell
+> breakpoint moves from 846px to a derived 79.5rem.
+
 `custom.js` is deleted, so its two surviving behaviours are reimplemented in
 `nav.js`: the mobile menu open/close (below 846px, closing on link activation)
 and active-section highlighting in the sidebar as the page scrolls, via the
@@ -429,20 +433,33 @@ behaviour is auditable in one place.
 
 ## 9. Performance
 
-| Budget | Target |
-|---|---|
-| JS shipped | < 15 KB uncompressed, no dependencies |
-| CSS shipped | < 30 KB across five files |
-| Vendor code | zero |
-| Fonts | 3 families, < 120 KB total, `display=swap`, system fallbacks |
+| Budget | Target | Measured (2026-09-20) |
+|---|---|---|
+| JS shipped | < 15 KB uncompressed, no dependencies | 20.9 KB raw · **15.1 KB excluding comments** · 7.4 KB gzipped |
+| CSS shipped | < 30 KB across five files | 42.2 KB raw · **25.9 KB excluding comments** · 9.7 KB gzipped |
+| Vendor code | zero | zero ✅ |
+| Fonts | 2 families, < 120 KB total, `display=swap`, system fallbacks | 88.2 KB ✅ |
 
-Fonts are the largest remaining payload and the one place this design can
-quietly undo its own performance win — a variable serif plus two more families
-can exceed the JS and CSS budgets combined several times over. Constraints:
-latin subset only, and a strict weight list (Fraunces 400/700, Inter 400/600,
-JetBrains Mono 400). If the measured total exceeds budget, Fraunces is kept for
-display and one of the remaining two families is dropped in favour of a system
-stack.
+**Correction, made during implementation.** This section originally budgeted
+for **3 families — Fraunces 400/700, Inter 400/600, JetBrains Mono 400**, with
+a contingency that kept Fraunces and dropped one of the other two. That plan
+did not survive Task 1: the user rejected the display serif as unprofessional
+for a recruiter-facing page (see §4, Typography). The shipped page loads
+**two** families — Lato 400/700/900 for display *and* body, JetBrains Mono 400
+for metadata — at a measured 88.2 KB, comfortably inside the 120 KB budget.
+Latin subset and `display=swap` still apply.
+
+**On the raw JS/CSS overruns.** Both exceed their uncompressed targets, and
+both are inside them once comments are excluded. This is deliberate and should
+not be "fixed" by deleting comments: roughly 40% of the CSS and 30% of the JS
+is documentation of measured decisions — the contrast ratios per token, why the
+light logo chip was rejected, why the view-transition origin depends on nothing
+sitting outside the viewport, why a `display:none` rect breaks FLIP. That
+commentary is the reason those decisions have survived several rounds of
+editing intact. There is no build step to strip it, so it ships; gzip removes
+most of the cost on the wire, which is what a visitor actually pays. If the raw
+figure ever needs to come down, the answer is a minify step at deploy, not
+thinner comments.
 
 Removing `vendor/` (~3.7 MB), the plugin CSS/JS, and the FontAwesome font
 files (~600 KB) means the redesign should ship dramatically lighter than the
@@ -465,16 +482,26 @@ assets/css/
   05-motion.css       keyframes, reveal states, reduced-motion overrides
 
 assets/js/            ES modules, no bundler
-  theme.js            toggle, persistence, transition
-  reveal.js           IntersectionObserver stagger
+  theme.js            toggle, persistence, circular wipe
+  reveal.js           IntersectionObserver stagger, count-up, onFirstView
   timeline.js         scroll-linked career draw
-  filters.js          project filtering (FLIP)
-  nav.js              mobile menu open/close, scroll-spy section highlighting
+  filters.js          project filtering (FLIP) + card tilt
+  nav.js              mobile menu open/close, scroll-spy, scroll progress
+  hero.js             magnetic CTAs, stat count-up
+  contact.js          form validation and submit states
+  ambient.js          sparse hero stars and birds
   main.js             init
 
 assets/images/        kept
+scripts/check.py      static checks; dev-only, never shipped
 docs/superpowers/specs/
 ```
+
+`hero.js`, `contact.js` and `ambient.js` are not in the original list above —
+they were split out during implementation to keep `main.js` a wiring file and
+to stop hero-only behaviour leaking into shared modules. `ambient.js` covers
+the stars and birds, which this spec did not anticipate at all; they were added
+after the first review found the night sky inert.
 
 ### Deleted
 
@@ -555,10 +582,17 @@ Per the user's standing instruction, **the user runs commands; the assistant
 does not run test suites.** Verification the assistant performs is limited to
 static checks it can make cheaply and report honestly:
 
-- every `src`/`href` resolves to a file that exists on disk
-- tag balance across `div`, `figure`, `figcaption`, `h4`
+- every local `src`/`href` resolves to a file that exists on disk
+- tag balance across `div`, `section`, `figure`, `ul`, `li`, `button`, `a`,
+  plus proper nesting via `HTMLParser` — counts alone miss `<div><main></div></main>`
 - no external link left without `target`/`rel`
-- no hardcoded colour outside `01-tokens.css`
+- no hardcoded colour outside `01-tokens.css` (mask and clip-path stencils
+  exempted: they are alpha channels, not themable colours)
+- filter chips and card tags agree in **both** directions
+- a `[hidden] { display: none }` rule exists whenever JS toggles `.hidden`
+- every hero stat is either derivable from the page and matches it, or is
+  recorded in `check.py` as a user-supplied claim
+- the pre-paint theme boot script is inline in `<head>`
 
 Handed back for the user to run:
 
@@ -579,7 +613,7 @@ mobile width.
 | Wholesale `index.html` replacement loses content | Content changes committed as a restore point before implementation begins |
 | View Transitions unsupported in some browsers | Feature-detected crossfade fallback |
 | Motion feels excessive to a non-technical viewer | Budget capped at Section 7; reduced-motion honoured; no scroll-jacking |
-| Three font families feel heavy | `display=swap` + system fallbacks; drop to two if load cost shows |
+| Three font families feel heavy | ~~`display=swap` + system fallbacks; drop to two if load cost shows~~ **Resolved:** shipped with two (Lato, JetBrains Mono) at 88.2 KB — see §9 |
 | Hero over-filled with four optional elements | Wire badge is the designated first cut |
 
 ---

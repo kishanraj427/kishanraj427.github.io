@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover" />
   <meta name="description" content="Raj Kishan Prasad, Senior Software Engineer building AI-powered SaaS at Eicore. Mobile, web and backend work, with six apps live on Google Play." />
   <meta name="author" content="Raj Kishan Prasad" />
 
@@ -55,7 +55,8 @@
   <a class="skip-link" href="#content">Skip to content</a>
   <div class="scroll-progress" aria-hidden="true"></div>
 
-  <!-- Theme toggle. Styled fixed for now; Task 3 moves it into the sidebar. -->
+  <!-- Fixed, not in the sidebar: the sidebar is a drawer on mobile, and the
+       wipe is seeded from this button's centre. -->
   <button id="theme-toggle" class="theme-toggle" type="button" aria-pressed="false">
     <span class="visually-hidden">Switch to night theme</span>
     <svg class="theme-toggle__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -80,11 +81,6 @@
   <div id="page-wraper">
     <!-- Sidebar -->
     <header class="sidebar" id="menu">
-      <button id="menu-close" class="menu-close" type="button">
-        <span class="visually-hidden">Close menu</span>
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" /></svg>
-      </button>
-
       <div class="sidebar__identity">
         <img class="sidebar__photo" src="assets/images/kishan.jpg" alt="Raj Kishan Prasad" />
         <p class="sidebar__name">Raj Kishan Prasad</p>
@@ -131,11 +127,6 @@
         </li>
       </ul>
     </header>
-
-    <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu">
-      <span class="visually-hidden">Open menu</span>
-      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
-    </button>
 
     <main id="content">
       <!-- Hero -->
@@ -726,7 +717,69 @@
         Built by hand by Raj Kishan Prasad. No frameworks, no build step.
         <a href="https://github.com/kishanraj427/kishanraj427.github.io" target="_blank" rel="noopener noreferrer">Source on GitHub</a>.
       </p>
+
+      <ul class="footer__social">
+        <li>
+          <a href="https://www.linkedin.com/in/raj-kishan-prasad-7893ab1aa" target="_blank" rel="noopener noreferrer">
+            <span class="visually-hidden">LinkedIn</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM10 9h3.8v1.7h.05a4.2 4.2 0 0 1 3.75-2c4 0 4.75 2.6 4.75 6V21h-4v-5.6c0-1.35-.03-3.1-1.9-3.1s-2.2 1.48-2.2 3v5.7h-4z" /></svg>
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/kishanraj427" target="_blank" rel="noopener noreferrer">
+            <span class="visually-hidden">GitHub</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.26.8-.57v-2c-3.34.72-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.09-.75.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49 1 .1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .31.21.68.81.57A12 12 0 0 0 12 .5z" /></svg>
+          </a>
+        </li>
+        <li>
+          <a href="mailto:kishanraj427@gmail.com">
+            <span class="visually-hidden">Email</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1.5 2L12 12.5 19.5 7z" /></svg>
+          </a>
+        </li>
+        <li>
+          <a href="https://drive.google.com/file/d/1KK_xdIuRj-cizsDoA7vNn5IfmEqzczhz/view" target="_blank" rel="noopener noreferrer">
+            <span class="visually-hidden">R&eacute;sum&eacute;</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 2h7l5 5v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zm7 1.5V8h4.5zM8 12h8v1.5H8zm0 3.5h8V17H8z" /></svg>
+          </a>
+        </li>
+      </ul>
     </footer>
+
+    <nav class="bottom-nav" aria-label="Sections">
+      <ul class="bottom-nav__list">
+        <li>
+          <a href="#about">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0" /></svg>
+            <span>About</span>
+          </a>
+        </li>
+        <li>
+          <a href="#superpowers">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 2 4 14h7l-1 8 9-12h-7z" /></svg>
+            <span>Skills</span>
+          </a>
+        </li>
+        <li>
+          <a href="#career">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 8h18v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1zM9 8V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v3" /></svg>
+            <span>Career</span>
+          </a>
+        </li>
+        <li>
+          <a href="#projects">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z" /></svg>
+            <span>Work</span>
+          </a>
+        </li>
+        <li>
+          <a href="#contact">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4V5a1 1 0 0 1 1-1z" /></svg>
+            <span>Say Hi</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
 
 

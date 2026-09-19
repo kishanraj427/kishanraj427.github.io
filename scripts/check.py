@@ -110,23 +110,87 @@ if uses_hidden:
         fails.append('JS toggles .hidden but no CSS [hidden] { display: none } rule '
                      'exists; author display rules will override the UA default')
 
-# 4d. hero stat numbers must match what the page actually contains, so they
-# cannot go stale when a project or a tile is added.
-derived = {
+# 4d. every hero stat must either match a count derived from the page, or be
+# listed in CLAIMS. Matching neither is a FAIL, so a new stat can't slip
+# through unchecked.
+DERIVED = {
     'personal': len(re.findall(r'<li class="card', html)),
     'Google Play': len(set(re.findall(
         r'play\.google\.com/store/apps/details\?id=([\w.]+)', html))),
     'technologies': len(re.findall(r'<li class="tile"', html)),
 }
+
+# User-supplied claims — not machine-verifiable. Note: "years of" runs from
+# Jan 2024 and excludes the Learnship internship on purpose.
+CLAIMS = ('years of', 'enterprise projects', 'domains', 'HackerRank')
+
 for item in re.findall(r'<li class="stat">(.*?)</li>', html, re.S):
     num = re.search(r'data-count="(\d+)"', item)
-    label = re.sub(r'<[^>]+>', ' ', item)
     if not num:
         continue
-    for key, actual in derived.items():
-        if key in label and int(num.group(1)) != actual:
+    label = ' '.join(re.sub(r'<[^>]+>', ' ', item).split())
+    accounted = False
+    for key, actual in DERIVED.items():
+        if key not in label:
+            continue
+        accounted = True
+        if int(num.group(1)) != actual:
             fails.append('hero stat "%s" says %s but the page contains %d'
                          % (key, num.group(1), actual))
+    if not accounted and not any(c in label for c in CLAIMS):
+        fails.append('hero stat "%s" is neither derivable from the page nor '
+                     'listed in CLAIMS; add a derivation or record it as a '
+                     'claim in scripts/check.py' % label)
+
+# 6. env(safe-area-inset-*) silently resolves to 0 without viewport-fit=cover.
+vp = re.search(r'<meta name="viewport" content="([^"]+)"', html)
+if not vp:
+    fails.append('no viewport meta tag')
+elif 'viewport-fit=cover' not in vp.group(1):
+    fails.append('viewport meta lacks viewport-fit=cover; the bottom bar would '
+                 'sit under the iPhone home indicator')
+
+# 7. the shell breakpoint must equal --container + --sidebar-w. Media queries
+# can't read custom properties, so keep the duplicated literal honest.
+tokens_css = open(os.path.join(CSS, '01-tokens.css'), encoding='utf-8').read()
+layout_css = open(os.path.join(CSS, '03-layout.css'), encoding='utf-8').read()
+
+def _rem(name):
+    m = re.search(r'--%s:\s*([\d.]+)rem' % name, tokens_css)
+    return float(m.group(1)) if m else None
+
+_container, _sidebar = _rem('container'), _rem('sidebar-w')
+if _container is None or _sidebar is None:
+    fails.append('--container or --sidebar-w missing or not in rem')
+else:
+    want = _container + _sidebar
+    HERO = 53.0  # the hero's own two-column threshold
+    found = [float(v) for v in
+             re.findall(r'@media\s*\(min-width:\s*([\d.]+)rem\s*\)', layout_css)]
+    if not any(abs(v - want) < 1e-6 for v in found):
+        fails.append('no shell breakpoint at %grem in 03-layout.css '
+                     '(--container + --sidebar-w)' % want)
+    for v in found:
+        if abs(v - want) > 1e-6 and abs(v - HERO) > 1e-6:
+            fails.append('unexpected rem breakpoint %grem in 03-layout.css; '
+                         'only %grem and %grem are allowed' % (v, want, HERO))
+
+for v in re.findall(r'@media\s*\((?:min|max)-width:\s*(\d+)px\s*\)', layout_css):
+    fails.append('px-based breakpoint %spx in 03-layout.css; use the derived '
+                 'rem value' % v)
+
+# 8. components must query their container, not the window
+comp_css = open(os.path.join(CSS, '04-components.css'), encoding='utf-8').read()
+comp_css = re.sub(r'/\*.*?\*/', '', comp_css, flags=re.S)
+for m in re.findall(r'@media[^{]*(?:min|max)-width[^{]*', comp_css):
+    fails.append('width-based @media in 04-components.css: %s' % ' '.join(m.split()))
+
+# 9. a @container query with no container-type matches nothing
+_all_css = ''.join(
+    open(os.path.join(CSS, f), encoding='utf-8').read()
+    for f in sorted(os.listdir(CSS)) if f.endswith('.css'))
+if '@container' in _all_css and not re.search(r'container-type\s*:', _all_css):
+    fails.append('@container queries exist but no container-type is declared')
 
 # 5. the pre-paint boot script must be inline in <head>
 head = html.split('</head>')[0]

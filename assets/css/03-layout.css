@@ -31,9 +31,10 @@
 .section {
   max-width: var(--container);
   margin-inline: auto;
-  padding-block: var(--space-3xl);
+  padding-block: var(--space-2xl);
   padding-inline: var(--space-m);
   scroll-margin-top: var(--space-l);
+  container-type: inline-size;
 }
 
 .section + .section {
@@ -54,7 +55,9 @@
   inset-inline-start: 0;
   z-index: 50;
 
-  display: flex;
+  /* display:none, not translated off-screen: it must stay out of the
+     view-transition capture the theme wipe depends on */
+  display: none;
   flex-direction: column;
   gap: var(--space-l);
   width: var(--sidebar-w);
@@ -141,8 +144,8 @@
 .sidebar__social a {
   display: grid;
   place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: var(--tap-min);
+  height: var(--tap-min);
   border-radius: var(--radius-pill);
   border: 1px solid var(--border);
   color: var(--text-muted);
@@ -164,79 +167,7 @@
   transform: translateY(-2px);
 }
 
-/* ── menu buttons (mobile only) ────────────────────────────────────────── */
 
-.menu-toggle,
-.menu-close {
-  display: none;
-  place-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  padding: 0;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-1);
-  color: var(--text);
-  cursor: pointer;
-}
-
-.menu-toggle svg,
-.menu-close svg {
-  width: 1.25rem;
-  height: 1.25rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-/* ── desktop ───────────────────────────────────────────────────────────── */
-
-@media (min-width: 846px) {
-  #page-wraper { padding-inline-start: var(--sidebar-w); }
-}
-
-/* ── mobile ────────────────────────────────────────────────────────────── */
-
-@media (max-width: 845px) {
-  .sidebar {
-    width: min(20rem, 85vw);
-    transform: translateX(-102%);
-    box-shadow: var(--shadow-2);
-    /* Hidden only after it has finished sliding out, so the animation still
-       plays but the closed sidebar never sits in the captured area. */
-    visibility: hidden;
-    transition:
-      background var(--dur-base) var(--ease-inout),
-      border-color var(--dur-base) var(--ease-inout),
-      transform var(--dur-base) var(--ease-out),
-      visibility 0s linear var(--dur-base);
-  }
-
-  .sidebar.is-open {
-    transform: none;
-    visibility: visible;
-    transition-delay: 0s;
-  }
-
-  .menu-toggle {
-    display: grid;
-    position: fixed;
-    top: var(--space-s);
-    left: var(--space-s);
-    z-index: 55;
-  }
-
-  .menu-close {
-    display: grid;
-    position: absolute;
-    top: var(--space-s);
-    right: var(--space-s);
-  }
-
-  .section { padding-block: var(--space-2xl); }
-}
 
 /* ── hero ──────────────────────────────────────────────────────────────── */
 
@@ -252,8 +183,8 @@
   overflow: clip;
   display: grid;
   align-content: center;
-  min-height: min(100svh, 54rem);
-  padding-block: var(--space-3xl) var(--space-2xl);
+  min-height: auto;
+  padding-block: var(--space-2xl);
 }
 
 /* Hero backdrop: a flat theme gradient with two soft colour washes drifting
@@ -403,9 +334,16 @@
   margin-inline: auto;
   padding-inline: var(--space-m);
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  grid-template-columns: 1fr;
   align-items: center;
-  gap: var(--space-2xl);
+  gap: var(--space-l);
+  container-type: inline-size;
+}
+
+/* .stats queries this, not .hero__inner: above 53rem .hero__body is only the
+   1.35fr text column, narrower than .hero__inner's own width */
+.hero__body {
+  container-type: inline-size;
 }
 
 .hero__eyebrow {
@@ -479,6 +417,8 @@
 .hero__scroll {
   display: inline-flex;
   align-items: center;
+  min-height: var(--tap-min);
+  padding-inline: var(--space-2xs);
   gap: var(--space-3xs);
   margin-block-start: var(--space-xl);
   color: var(--text-muted);
@@ -503,9 +443,130 @@
   50%      { transform: translateY(3px); }
 }
 
-@media (max-width: 845px) {
-  .hero { min-height: auto; padding-block: var(--space-2xl); }
-  .hero__inner { grid-template-columns: 1fr; gap: var(--space-l); }
-  .hero__portrait { order: -1; max-width: 12rem; }
-  .stats { gap: var(--space-m) var(--space-l); }
+/* stacked by default; portrait sits above the text */
+.hero__portrait {
+  order: -1;
+  max-width: clamp(11rem, 50cqi, 16rem);
+  margin-inline: auto;
+}
+
+/* 53rem = 420px text + 300px portrait + 72px gap, plus the section padding */
+@media (min-width: 53rem) {
+  .hero {
+    min-height: min(100svh, 54rem);
+    padding-block: var(--space-3xl) var(--space-2xl);
+  }
+
+  .hero__inner {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: var(--space-2xl);
+  }
+
+  .hero__portrait {
+    order: 0;
+    max-width: 100%;
+    margin-inline: 0;
+  }
+}
+
+/* ── bottom nav ────────────────────────────────────────────────────────── */
+
+/* translateX is part of the centring, so .is-hidden has to repeat it */
+.bottom-nav {
+  position: fixed;
+  z-index: 60;
+  left: 50%;
+  bottom: calc(var(--space-xs) + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  width: calc(100% - var(--space-m));
+  max-width: 26rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-2);
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    opacity var(--dur-base) var(--ease-out),
+    background var(--dur-base) var(--ease-inout),
+    border-color var(--dur-base) var(--ease-inout);
+}
+
+.bottom-nav.is-hidden {
+  transform: translateX(-50%) translateY(calc(100% + var(--space-l)));
+  opacity: 0;
+  /* delayed so the slide still plays before it leaves the view-transition
+     capture — a fixed element left translated off-screen breaks the wipe */
+  visibility: hidden;
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    opacity var(--dur-base) var(--ease-out),
+    background var(--dur-base) var(--ease-inout),
+    border-color var(--dur-base) var(--ease-inout),
+    visibility 0s linear var(--dur-base);
+}
+
+.bottom-nav__list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  padding: var(--space-3xs);
+  margin: 0;
+}
+
+.bottom-nav a {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 2px;
+  min-height: var(--tap-min);
+  padding: var(--space-3xs) 2px;
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.2;
+  transition:
+    color var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out);
+}
+
+.bottom-nav svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.bottom-nav a:hover { color: var(--text); }
+
+.bottom-nav a.is-current {
+  color: var(--accent-ink);
+  background: var(--canvas);
+}
+
+/* visible by default; hidden on desktop in the shell block below, where the
+   sidebar already carries these links */
+.footer__social { display: flex; }
+
+/* clear the bar so the footer is never covered */
+body {
+  padding-block-end: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* ── desktop shell ─────────────────────────────────────────────────────────
+   79.5rem = --container (62rem) + --sidebar-w (17.5rem). Below it the column
+   would get narrower as the screen grows. check.py asserts this.
+   Last in the file on purpose: it overrides base rules that set the same
+   properties, and media queries carry no extra specificity. */
+
+@media (min-width: 79.5rem) {
+  #page-wraper { padding-inline-start: var(--sidebar-w); }
+  .sidebar { display: flex; }
+  .bottom-nav { display: none; }
+  .footer__social { display: none; }
+  body { padding-block-end: 0; }
+  .section { padding-block: var(--space-3xl); }
 }

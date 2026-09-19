@@ -110,6 +110,9 @@
   /* ── layout ──────────────────────────────────────────────────────────── */
   --sidebar-w: 17.5rem;
   --container: 62rem;
+
+  /* minimum hit area for controls (WCAG 2.5.5, Apple HIG) */
+  --tap-min: 2.75rem;
 }
 
 :root[data-theme="night"] {
