@@ -1,0 +1,269 @@
+%-------------------------
+% Resume in Latex
+% Author : Jake Gutierrez
+% Based off of: https://github.com/sb2nov/resume
+% License : MIT
+%------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{multicol}
+\setlength{\multicolsep}{-3.0pt}
+\setlength{\columnsep}{-1pt}
+\input{glyphtounicode}
+
+%----------COLOR PALETTE----------
+% accent      - name, section headings
+% accentlight - rules, links, bullet markers
+\definecolor{accent}{HTML}{1F4E79}
+\definecolor{accentlight}{HTML}{2E75B6}
+
+\usepackage[colorlinks=true,urlcolor=accentlight,linkcolor=accentlight]{hyperref}
+
+
+%----------FONT OPTIONS----------
+% sans-serif
+% \usepackage[sfdefault]{FiraSans}
+% \usepackage[sfdefault]{roboto}
+% \usepackage[sfdefault]{noto-sans}
+% \usepackage[default]{sourcesanspro}
+
+% serif
+% \usepackage{CormorantGaramond}
+% \usepackage{charter}
+
+
+\pagestyle{fancy}
+\fancyhf{} % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Adjust margins
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1.19in}
+\addtolength{\topmargin}{-.7in}
+\addtolength{\textheight}{1.4in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Sections formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large\bfseries\color{accent}
+}{}{0em}{}[\color{accentlight}\titlerule \vspace{-5pt}]
+
+% Ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+%-------------------------
+% Custom commands
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\classesList}[4]{
+    \item\small{
+        {#1 #2 #3 #4 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{1.0\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & \textbf{\small #2} \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubSubheading}[2]{
+    \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textit{\small#1} & \textit{\small #2} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeProjectHeading}[2]{
+    \item
+    \begin{tabular*}{1.001\textwidth}{l@{\extracolsep{\fill}}r}
+      \small#1 & \textbf{\small #2}\\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubItem}[1]{\resumeItem{#1}\vspace{-4pt}}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\renewcommand\labelitemii{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.0in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+%-------------------------------------------
+%%%%%%  RESUME STARTS HERE  %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+%----------HEADING----------
+
+\begin{center}
+    {\Huge \scshape \color{accent} Raj Kishan Prasad} \\ \vspace{3pt}
+    {\normalsize Senior Software Engineer $|$ Full-Stack \& AI SaaS} \\ \vspace{4pt}
+    \small \raisebox{-0.1\height}\faPhone\ +91 62034 65594 ~
+    \href{mailto:kishanraj427@gmail.com}{\raisebox{-0.2\height}\faEnvelope\ \underline{kishanraj427@gmail.com}} \\ \vspace{3pt}
+    \small
+    \href{https://kishanraj427.github.io}{\raisebox{-0.2\height}\faGlobe\ \underline{kishanraj427.github.io}} ~
+    \href{https://www.linkedin.com/in/raj-kishan-prasad-7893ab1aa/}{\raisebox{-0.2\height}\faLinkedin\ \underline{linkedin.com/in/raj-kishan-prasad-7893ab1aa}} ~
+    \href{https://github.com/kishanraj427}{\raisebox{-0.2\height}\faGithub\ \underline{github.com/kishanraj427}} ~
+    \href{https://leetcode.com/u/kishanraj427/}{\raisebox{-0.2\height}\faCode\ \underline{leetcode.com/u/kishanraj427}}
+    \vspace{-8pt}
+\end{center}
+
+
+%-----------SUMMARY-----------
+\section{Summary}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+    Senior Software Engineer building AI-powered web SaaS for the insurance sector. I take AI capabilities from prototype into production without trading away application performance or code quality, and own systems end to end --- architecture, backend, frontend and the release pipeline behind them. Equally at home on mobile, with six applications published on Google Play. Security-first by training.
+    }}
+ \end{itemize}
+ \vspace{-16pt}
+
+
+%-----------EXPERIENCE-----------
+\section{Experience}
+  \resumeSubHeadingListStart
+
+    \resumeSubheading
+      {Eicore Technologies}{Mar 2026 -- Present}
+      {Senior Software Engineer}{Gurugram, India}
+      \resumeItemListStart
+        \resumeItem{Build \textbf{OneBuzz}, an AI-powered web SaaS platform for the insurance sector, owning features end to end from architecture through backend, frontend and release.}
+        \resumeItem{Take AI capabilities from prototype into production, tuning integration and data flow so intelligent features ship without degrading application performance or code quality.}
+        \resumeItem{Architected the platform on a \textbf{monorepo} with a \textbf{graph-based data architecture}, keeping modules independently maintainable as the product surface grew.}
+        \resumeItem{Promoted to Senior Software Engineer in Aug 2026, following the client's acquisition of the delivery team from Essentia.Dev.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Essentia.Dev}{Jun 2025 -- Feb 2026}
+      {Software Engineer}{Noida, India}
+      \resumeItemListStart
+        \resumeItem{Built and maintained end-to-end web applications for the insurance industry, delivering OneBuzz as an embedded consultant placed with Eicore Technologies.}
+        \resumeItem{Engineered automated and \textbf{End-to-End (E2E)} test suites covering critical product flows, stabilising releases and cutting regression risk.}
+        \resumeItem{Owned system architecture and technical delivery on a high-performance enterprise product --- work that led the client to absorb the engineering team directly.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Wit By Bit}{Jan 2024 -- May 2025}
+      {Full-Stack Mobile Developer}{Kolkata, India (Remote)}
+      \resumeItemListStart
+        \resumeItem{Owned \textbf{CRM}, \textbf{inventory management} and \textbf{eCommerce} mobile applications end to end, from architecture through release.}
+        \resumeItem{Resolved critical architectural issues and wrote high-performance asynchronous Dart and Flutter code to manage complex state and real-time updates.}
+        \resumeItem{Optimised app performance by designing custom UI rendering widgets for large datasets, reducing UI thread blocking under tight device resource constraints.}
+        \resumeItem{Established automated \textbf{CI/CD} pipelines with Docker and GitHub Actions, mentored peers, and integrated analytics to track user behaviour across eCommerce feature rollouts.}
+      \resumeItemListEnd
+
+  \resumeSubHeadingListEnd
+\vspace{-16pt}
+
+
+%-----------PROJECTS-----------
+\section{Projects}
+    \vspace{-5pt}
+    \resumeSubHeadingListStart
+
+      \resumeProjectHeading
+          {\textbf{Wire} $|$ \emph{Flutter, PostgreSQL, WebSocket}}{\href{https://github.com/kishanraj427/wayfarer-sync}{\underline{github.com/kishanraj427/wayfarer-sync}}}
+          \resumeItemListStart
+            \resumeItem{Real-time group trip tracking --- create a trip, share a Trip ID, and every rider sees the others' live position and progress on one map.}
+            \resumeItem{Built on WebSocket streaming for continuous location updates, with PostgreSQL persisting trips and routes. \href{https://play.google.com/store/apps/details?id=com.wire.location}{\underline{Live on Google Play}}.}
+          \resumeItemListEnd
+          \vspace{-13pt}
+
+      \resumeProjectHeading
+          {\textbf{JRSU App} $|$ \emph{Jetpack Compose, Kotlin, Firebase, OneSignal}}{\href{https://github.com/kishanraj427/JRSU}{\underline{github.com/kishanraj427/JRSU}}}
+          \resumeItemListStart
+            \resumeItem{Official application for Jharkhand Raksha Shakti University, delivering targeted academic notifications, syllabus and schedules to students.}
+            \resumeItem{Built in Jetpack Compose with CRUD operations over Firebase Realtime Database and push delivery through OneSignal. \href{https://play.google.com/store/apps/details?id=com.jrsu.jharkhand.raksha.shakti.university}{\underline{Live on Google Play}}.}
+          \resumeItemListEnd
+          \vspace{-13pt}
+
+      \resumeProjectHeading
+          {\textbf{JAC eLearning} $|$ \emph{Flutter, Firebase, OneSignal}}{\href{https://github.com/kishanraj427/jac\_elearning}{\underline{github.com/kishanraj427/jac\_elearning}}}
+          \resumeItemListStart
+            \resumeItem{Study-resource app for Jharkhand Board students: official notifications, book PDFs, solutions and past question papers, built and shipped during lockdown.}
+            \resumeItem{Flutter client backed by Firebase, with OneSignal handling notification delivery. \href{https://play.google.com/store/apps/details?id=com.jac.jacboard.jacquestion.jac\_elearning}{\underline{Live on Google Play}}.}
+          \resumeItemListEnd
+          \vspace{-13pt}
+
+      \resumeProjectHeading
+          {\textbf{Typing Test} $|$ \emph{Angular, TypeScript}}{\href{https://github.com/kishanraj427/Typing-Test}{\underline{github.com/kishanraj427/Typing-Test}}}
+          \resumeItemListStart
+            \resumeItem{Single-page Angular application that measures and scores typing speed in the browser, built with TypeScript and component-driven state. \href{https://peaceful-paprenjak-75febb.netlify.app/}{\underline{Live demo}}.}
+          \resumeItemListEnd
+
+    \resumeSubHeadingListEnd
+\vspace{-15pt}
+
+
+%-----------PROGRAMMING SKILLS-----------
+\section{Technical Skills}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Languages}{: TypeScript, JavaScript, Kotlin, Java, Dart, Python, SQL, C/C++} \\
+     \textbf{Frontend}{: Angular, React, HTML5, CSS3} \\
+     \textbf{Backend \& APIs}{: Node.js, Express.js, Spring Boot, REST APIs, WebSocket} \\
+     \textbf{Mobile}{: Flutter, Android SDK, Jetpack Compose, XML} \\
+     \textbf{Databases}{: PostgreSQL, MongoDB, Firebase Realtime Database, SQLite} \\
+     \textbf{Architecture \& AI}{: Monorepo, graph-based data architecture, system design, SaaS, LLM and AI feature integration} \\
+     \textbf{Testing \& DevOps}{: Playwright, End-to-End (E2E) testing, Docker, GitHub Actions, CI/CD, Git, Android Studio, VS Code} \\
+    }}
+ \end{itemize}
+ \vspace{-16pt}
+
+
+%-----------EDUCATION-----------
+\section{Education}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Vellore Institute of Technology}{Sep 2022 -- May 2024}
+      {Master of Computer Applications --- CGPA 9.01}{Vellore, India}
+    \resumeSubheading
+      {Jharkhand Raksha Shakti University}{Jul 2019 -- Jul 2022}
+      {B.Sc. (Hons) Computer Science \& Cyber Security --- CGPA 9.19}{Ranchi, India}
+  \resumeSubHeadingListEnd
+\vspace{-16pt}
+
+
+%-----------CERTIFICATIONS-----------
+\section{Certifications}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{HackerRank}{: 5 Star in Problem Solving ~---~ \href{https://www.hackerrank.com/certificates/f16677841875}{\underline{hackerrank.com/certificates/f16677841875}}} \\
+     \textbf{Udemy}{: \href{https://www.udemy.com/certificate/UC-b0184650-7c9e-423b-aa4d-09d083a97cd4/}{\underline{Machine Learning with Flutter}}} \\
+     \textbf{LinkedIn Learning}{: \href{https://www.linkedin.com/learning/certificates/865d204a3cd30821b492624df6082cf97362b2fa018b1b8285296d950e8f3eae}{\underline{Angular Essential Training}}} \\
+    }}
+ \end{itemize}
+ \vspace{-16pt}
+
+
+\end{document}
